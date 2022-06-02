@@ -91,10 +91,26 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             @Override
             public void onClick(View view) {
                 //Toast.makeText(MainActivity.this, "Button clicked", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(MainActivity.this, Main2ActivityNew.class);
                 String selection = gestureSpinner.getSelectedItem().toString();
-                intent.putExtra("spinner",selection);
-                startActivity(intent);
+                if (selection != "") {
+                    Intent intent = new Intent(MainActivity.this, Main2ActivityNew.class);
+                    intent.putExtra("spinner", selection);
+                    startActivity(intent);
+                }
+            }
+        });
+
+        Button download = (Button)findViewById(R.id.button4);
+        download.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //UploadTask up1 = new UploadTask();
+                //Toast.makeText(getApplicationContext(),"Starting to Upload",Toast.LENGTH_LONG).show();
+                //up1.execute();
+
+                DownloadTask dw1 = new DownloadTask();
+                dw1.execute();
+
             }
         });
 
@@ -149,8 +165,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             }
         });
 
-        Toast.makeText(MainActivity.this, "App started", Toast.LENGTH_LONG).show();
-
         Button bt1 = (Button) findViewById(R.id.button);
 
         if(!hasCamera()){
@@ -163,41 +177,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 startRecording();
             }
         });
-
-        Button bt2 = (Button) findViewById(R.id.button4Act1);
-
-        bt2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                    DownloadTask dw1 = new DownloadTask();
-                Toast.makeText(getApplicationContext(),"Running Background Task", Toast.LENGTH_LONG).show();
-                    dw1.execute();
-
-            }
-        });
-
-        Button bt3 = (Button)findViewById(R.id.button3);
-
-        bt3.setEnabled(false);
-
-        bt3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                VideoView vv2 = (VideoView)findViewById(R.id.videoView);
-                vv2.start();
-            }
-        });
-
-        Button bt5 = (Button)findViewById(R.id.button4);
-        bt5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                UploadTask up1 = new UploadTask();
-                Toast.makeText(getApplicationContext(),"Stating to Upload",Toast.LENGTH_LONG).show();
-                up1.execute();
-            }
-        });
-
     }
 
     @Override
@@ -226,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         @Override
         protected String doInBackground(String... strings) {
             try {
-
+                //Toast.makeText(getApplicationContext(),"Starting to Upload",Toast.LENGTH_LONG).show();
                 String url = "http://10.218.107.121/cse535/upload_video.php";
                 String charset = "UTF-8";
                 String group_id = "40";
@@ -329,7 +308,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
         @Override
         protected void onPreExecute() {
-            Toast.makeText(getApplicationContext(), "Starting to execute Background Task", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Starting to download", Toast.LENGTH_LONG).show();
         }
 
         @Override
@@ -342,77 +321,88 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 directory.mkdir();
             }
             //publishProgress();
-//            Toast.makeText(getApplicationContext(),"In Background Task", Toast.LENGTH_LONG).show();
-            String fileName = "Action1" + ".mp4"; //song name that will be stored in your device in case of song
-            //String fileName = "myImage" + ".jpeg"; in case of image
-            try
-            {
-                InputStream input = null;
-                try{
+            //Toast.makeText(getApplicationContext(),"In Background Task", Toast.LENGTH_LONG).show();
 
-                    URL url = new URL("https://www.signingsavvy.com/media/mp4-ld/7/7231.mp4"); // link of the song which you want to download like (http://...)
-                    HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
-                    urlConnection.setRequestMethod("POST");
-                    urlConnection.setReadTimeout(95 * 1000);
-                    urlConnection.setConnectTimeout(95 * 1000);
-                    urlConnection.setDoInput(true);
-                    urlConnection.setRequestProperty("Accept", "application/json");
-                    urlConnection.setRequestProperty("X-Environment", "android");
+            //loop through URL/action name
+            List<String> actions = new ArrayList<String>();
+            List<String> urls = new ArrayList<String>();
 
+            // Adding elements to the list
+            // Custom inputs
+            actions.add("Algorithm");
+            actions.add("Filter");
+            actions.add("Network");
+            actions.add("Patch");
 
-                    urlConnection.setHostnameVerifier(new HostnameVerifier() {
-                        @Override
-                        public boolean verify(String hostname, SSLSession session) {
-                            /** if it necessarry get url verfication */
-                            //return HttpsURLConnection.getDefaultHostnameVerifier().verify("your_domain.com", session);
-                            return true;
-                        }
-                    });
-                    urlConnection.setSSLSocketFactory((SSLSocketFactory) SSLSocketFactory.getDefault());
+            urls.add("https://www.signingsavvy.com/media/mp4-ld/23/23188.mp4");
+            urls.add("https://www.signingsavvy.com/media/mp4-ld/27/27283.mp4");
+            urls.add("https://www.signingsavvy.com/media/mp4-ld/23/23287.mp4");
+            urls.add("https://www.signingsavvy.com/media/mp4-ld/27/27786.mp4");
+
+            for (int i = 0; i < actions.size(); i++) {
 
 
-                    urlConnection.connect();
-                    input = urlConnection.getInputStream();
-                    //input = url.openStream();
-                    OutputStream output = new FileOutputStream(new File(directory, fileName));
-
+                String fileName = actions.get(i) + ".mp4"; //song name that will be stored in your device in case of song
+                //String fileName = "myImage" + ".jpeg"; in case of image
+                try {
+                    InputStream input = null;
                     try {
-                        byte[] buffer = new byte[1024];
-                        int bytesRead = 0;
-                        while ((bytesRead = input.read(buffer, 0, buffer.length)) >= 0)
-                        {
-                            output.write(buffer, 0, bytesRead);
+
+                        URL url = new URL(urls.get(i)); // link of the song which you want to download like (http://...)
+                        HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
+                        urlConnection.setRequestMethod("POST");
+                        urlConnection.setReadTimeout(95 * 1000);
+                        urlConnection.setConnectTimeout(95 * 1000);
+                        urlConnection.setDoInput(true);
+                        urlConnection.setRequestProperty("Accept", "application/json");
+                        urlConnection.setRequestProperty("X-Environment", "android");
+
+
+                        urlConnection.setHostnameVerifier(new HostnameVerifier() {
+                            @Override
+                            public boolean verify(String hostname, SSLSession session) {
+                                /** if it necessarry get url verfication */
+                                //return HttpsURLConnection.getDefaultHostnameVerifier().verify("your_domain.com", session);
+                                return true;
+                            }
+                        });
+                        urlConnection.setSSLSocketFactory((SSLSocketFactory) SSLSocketFactory.getDefault());
+
+
+                        urlConnection.connect();
+                        input = urlConnection.getInputStream();
+                        //input = url.openStream();
+                        OutputStream output = new FileOutputStream(new File(directory, fileName));
+
+                        try {
+                            byte[] buffer = new byte[1024];
+                            int bytesRead = 0;
+                            while ((bytesRead = input.read(buffer, 0, buffer.length)) >= 0) {
+                                output.write(buffer, 0, bytesRead);
+
+                            }
+                            output.close();
+                            //Toast.makeText(getApplicationContext(),"Read Done", Toast.LENGTH_LONG).show();
+                        } catch (Exception exception) {
+
+
+                            //Toast.makeText(getApplicationContext(),"output exception in catch....."+ exception + "", Toast.LENGTH_LONG).show();
+                            Log.d("Error", String.valueOf(exception));
+                            publishProgress(String.valueOf(exception));
+                            output.close();
 
                         }
-                        output.close();
-                        //Toast.makeText(getApplicationContext(),"Read Done", Toast.LENGTH_LONG).show();
-                    }
-                    catch (Exception exception)
-                    {
+                    } catch (Exception exception) {
 
-
-                        //Toast.makeText(getApplicationContext(),"output exception in catch....."+ exception + "", Toast.LENGTH_LONG).show();
-                        Log.d("Error", String.valueOf(exception));
+                        //Toast.makeText(getApplicationContext(), "input exception in catch....."+ exception + "", Toast.LENGTH_LONG).show();
                         publishProgress(String.valueOf(exception));
-                        output.close();
 
+                    } finally {
+                        input.close();
                     }
-                }
-                catch (Exception exception)
-                {
-
-                    //Toast.makeText(getApplicationContext(), "input exception in catch....."+ exception + "", Toast.LENGTH_LONG).show();
+                } catch (Exception exception) {
                     publishProgress(String.valueOf(exception));
-
                 }
-                finally
-                {
-                    input.close();
-                }
-            }
-            catch (Exception exception)
-            {
-                publishProgress(String.valueOf(exception));
             }
 
             return "true";
@@ -426,14 +416,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             Toast.makeText(getApplicationContext(), "In Background Task" + text[0], Toast.LENGTH_LONG).show();
         }
 
-        @Override
-        protected void onPostExecute(String text){
-            VideoView vv = (VideoView) findViewById(R.id.videoView);
-            vv.setVideoPath(Environment.getExternalStorageDirectory()+"/my_folder/Action1.mp4");
-            vv.start();
-            Button bt4 = (Button)findViewById(R.id.button3);
-            bt4.setEnabled(true);
-        }
+//        @Override
+//        protected void onPostExecute(String text){
+//            VideoView vv = (VideoView) findViewById(R.id.videoView);
+//            vv.setVideoPath(Environment.getExternalStorageDirectory()+"/my_folder/Patch.mp4");
+//            vv.start();
+//            Button bt4 = (Button)findViewById(R.id.button3);
+//            bt4.setEnabled(true);
+//        }
     }
 
 
@@ -464,51 +454,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     }
 
     private void addGesturesToList(ArrayList<String> gestures) {
-        gestures.add("All Night");
-        gestures.add("Appetite");
-        gestures.add("Bull");
-        gestures.add("Can");
-        gestures.add("Carrot");
-        gestures.add("Cat");
-        gestures.add("Cheer");
-        gestures.add("Chicken");
-        gestures.add("Cow");
-        gestures.add("Cucumber");
-        gestures.add("Day");
-        gestures.add("Deaf");
-        gestures.add("Decide");
-        gestures.add("Dolphin");
-        gestures.add("Evening");
-        gestures.add("Fish");
-        gestures.add("Flower");
-        gestures.add("Food");
-        gestures.add("Full");
-        gestures.add("Goat");
-        gestures.add("Hearing");
-        gestures.add("Hurt");
-        gestures.add("Meat");
-        gestures.add("Noodle");
-        gestures.add("Noon");
-        gestures.add("Pepper");
-        gestures.add("Phone");
-        gestures.add("Rice");
-        gestures.add("Rooster");
-        gestures.add("Rotten");
-        gestures.add("Salt");
-        gestures.add("Sandwich");
-        gestures.add("Shark");
-        gestures.add("Smell");
-        gestures.add("Sorry");
-        gestures.add("Sour");
-        gestures.add("Taco");
-        gestures.add("Task");
-        gestures.add("Taste");
-        gestures.add("Tasty");
-        gestures.add("Taurus");
-        gestures.add("Tiger");
-        gestures.add("Tomato");
-        gestures.add("Whale");
-        gestures.add("Work Hard");
+        gestures.add("");
+        gestures.add("Algorithm");
+        gestures.add("Filter");
+        gestures.add("Network");
+        gestures.add("Patch");
     }
 
     protected void onActivityResult(int requestCode,

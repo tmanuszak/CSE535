@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+import android.widget.VideoView;
+import android.os.Environment;
 
 public class Main2ActivityNew extends AppCompatActivity {
 
@@ -15,8 +17,12 @@ public class Main2ActivityNew extends AppCompatActivity {
         setContentView(R.layout.activity_main2_new);
 
         Bundle extras = getIntent().getExtras();
-        String str = extras.getString("spinner");
-        Toast.makeText(Main2ActivityNew.this, str, Toast.LENGTH_LONG).show();
+        String selection = extras.getString("spinner");
+        Toast.makeText(Main2ActivityNew.this, selection, Toast.LENGTH_LONG).show();
+
+        VideoView vv = (VideoView) findViewById(R.id.videoView);
+        vv.setVideoPath(Environment.getExternalStorageDirectory()+"/my_folder/"+selection+".mp4");
+        vv.start();
 
         Button practice = (Button) findViewById(R.id.practice);
         practice.setOnClickListener(new View.OnClickListener() {
