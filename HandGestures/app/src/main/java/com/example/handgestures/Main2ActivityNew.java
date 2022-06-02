@@ -1,13 +1,13 @@
-package com.example.androidhelloworldthursday;
+package com.example.handgestures;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import android.widget.VideoView;
-import android.os.Environment;
 
 public class Main2ActivityNew extends AppCompatActivity {
 
