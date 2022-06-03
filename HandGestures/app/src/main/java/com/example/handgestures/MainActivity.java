@@ -316,6 +316,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             }
 
             for (String gesture : selectedGestures) {
+                Log.e("ERROR", "doInBackground: gesture is" + gesture);
+                Log.e("ERROR", "doInBackground: url is " + urls.get(gesture));
                 String fileName = gesture + ".mp4";
                 try {
                     InputStream input = null;
@@ -473,51 +475,51 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     }
 
     private void setupURLHashtable() {
-        urls.put("AC Power", "https://drive.google.com/uc?id=1nBgSQdH7ZuvUTfJac4DHdgPaPIVFSMjM&authuser=0&export=download");
-        urls.put("Algorithm", "https://drive.google.com/uc?id=1eT5g1JPXwxOIIFwVLqjO2N5YGBqYVTO5&authuser=0&export=download");
-        urls.put("Antenna", "https://drive.google.com/uc?id=1X0ZQF-oriF9eWgL3SoU64sdxM_pVudCU&authuser=0&export=download");
-        urls.put("Authentication", "https://drive.google.com/uc?id=1mg5i66f9zbh413Gyj1WsnWqfHKBuYQ2d&authuser=0&export=download");
-        urls.put("Authorization", "https://drive.google.com/uc?id=1bwwTx10PnO57WM_3g3JYVDsap-t-0dMD&authuser=0&export=download");
-        urls.put("Bandwidth", "https://drive.google.com/uc?id=1B95x7o9JQ6C5tVYN38DMHnytwzWfUDop&authuser=0&export=download");
-        urls.put("Bluetooth", "https://drive.google.com/uc?id=1_K2fxNT5fdI028x8-8cke97wXaCg18Nt&authuser=0&export=download");
-        urls.put("Browser", "https://drive.google.com/uc?id=1DUV0RHK39_yD_Xp0KUAr4rPd5hLxf9FB&authuser=0&export=download");
-        urls.put("Cloud Computing", "https://drive.google.com/uc?id=1PKgSDLS_suYYRYse2zGQwTe2qRHQ_gYW&authuser=0&export=download");
-        urls.put("Data Compression", "https://drive.google.com/uc?id=1sCLxdSjyAG9BuhBmC4IyESXq308wnBjQ&authuser=0&export=download");
-        urls.put("Data Link Layer", "https://drive.google.com/uc?id=15khsyj5TBnaxDucTgtZ8TblA7HY0MpB5&authuser=0&export=download");
+        urls.put("AC Power", "https://www.dropbox.com/s/kmx9qbsh7wfxsoj/ACPower.mp4");
+        urls.put("Algorithm", "https://www.signingsavvy.com/media/mp4-ld/23/23188.mp4");
+        urls.put("Antenna", "https://www.dropbox.com/s/c3jtr1e0dy06cqi/Antenna.mp4?dl=1");
+        urls.put("Authentication", "https://www.dropbox.com/s/pkh6ip27bn4wkao/Authentication.mp4?dl=1");
+        urls.put("Authorization", "https://www.dropbox.com/s/ernc0nxzmiao783/Authorization.mp4?dl=1");
+        urls.put("Bandwidth", "https://www.dropbox.com/s/c4aub9ovbha0nax/Bandwidth.mp4?dl=1");
+        urls.put("Bluetooth", "https://www.dropbox.com/s/ecqnhfdbrpjwyxb/Bluetooth.mp4?dl=1");
+        urls.put("Browser", "https://www.dropbox.com/s/dhiyakt71tjek2n/Browser.mp4?dl=1");
+        urls.put("Cloud Computing", "https://www.dropbox.com/s/w82vrwwxjc2epq6/Cloudcomputing.mp4?dl=1");
+        urls.put("Data Compression", "https://www.dropbox.com/s/0dipxauabc2b04e/DataCompression.mp4?dl=1");
+        urls.put("Data Link Layer", "https://www.dropbox.com/s/wi41ahd382tqsgt/DataLinkLayer.mp4?dl=1");
         urls.put("Data Mining", "https://www.dropbox.com/s/0byl3u9eftn08i6/DataMining.mp4?dl=1");
-        urls.put("Decryption", "https://drive.google.com/uc?id=11jFSQLfHCdRG6zuvE8VYqaZBpUDrYImF&authuser=0&export=download");
-        urls.put("Domain", "https://drive.google.com/uc?id=1S2NdpjzbBTM8cRG4njgRbW_CNRrjQrOs&authuser=0&export=download");
-        urls.put("Email", "https://drive.google.com/uc?id=1EoWpEvjX50xhTrVZPR0Xfu5L_0QlEutc&authuser=0&export=download");
-        urls.put("Exposure", "https://drive.google.com/uc?id=1aCTozu4aiYzV7FU7PxWXrNkUFJp3F9td&authuser=0&export=download");
-        urls.put("Filter", "https://drive.google.com/uc?id=1bppYkF6pBUpjgCmd5dwyIiPK8025jLSD&authuser=0&export=download");
-        urls.put("Firewall", "https://drive.google.com/uc?id=1D9T_LsTIq7QcDRydFTlTYXqJodey3wOG&authuser=0&export=download");
-        urls.put("Flooding", "https://drive.google.com/uc?id=193ErtT1InqxnbLvfVw2n1mKIUS6eCK4r&authuser=0&export=download");
-        urls.put("Gateway", "https://drive.google.com/uc?id=1l7OUpB2gDRWbzsfD0wKYGcXN0nE8TpMa&authuser=0&export=download");
-        urls.put("Hacker", "https://drive.google.com/uc?id=1N9MvRqFGCsH3pjoh4uAXTvpbwaejfuA7&authuser=0&export=download");
-        urls.put("Header", "https://drive.google.com/uc?id=1sI8AKiswVhogwr7pvMAed_QbL-bO-xDj&authuser=0&export=download");
-        urls.put("Hot Swap", "https://drive.google.com/uc?id=19Q4v_dqbm3YUfbNHsQQWoApWsp5Lhkbl&authuser=0&export=download");
-        urls.put("Hyperlink", "https://drive.google.com/uc?id=1WDGAyl_Yi1rZZxbaV_BzhMw-WUrYtmGU&authuser=0&export=download");
-        urls.put("Infrastructure", "https://drive.google.com/uc?id=1SMQVMwWviFYSNDHytPpOvd0VHpAFPYvW&authuser=0&export=download");
-        urls.put("Integrity", "https://drive.google.com/uc?id=1QBr366DmZgqlQGtvAkMvRL8pQrRwVWF7&authuser=0&export=download");
-        urls.put("Internet", "https://drive.google.com/uc?id=1M2XrAlMJjQFzlqSRxDRW3aM7uaqpaWnX&authuser=0&export=download");
-        urls.put("Intranet", "https://drive.google.com/uc?id=15qrkeHjW9vlmv_fyN2NylWEswCnlIxJC&authuser=0&export=download");
-        urls.put("Latency", "https://drive.google.com/uc?id=1Vcku5y_xS_M6FzPa2uI8UVxdpFZXL2Sh&authuser=0&export=download");
-        urls.put("Loopback", "https://drive.google.com/uc?id=1Tp0XQKty6Il5EtIshTyA-vQ3tlNvs5yl&authuser=0&export=download");
-        urls.put("Motherboard", "https://drive.google.com/uc?id=18c-Ej-rOy1qdHsK_-HCmzf27FDwB2bKs&authuser=0&export=download");
-        urls.put("Network", "https://drive.google.com/uc?id=1skCOl05yXKh4vBh1ilKl7klS3-N-c0IQ&authuser=0&export=download");
-        urls.put("Networking", "https://drive.google.com/uc?id=1ZKoHq3R1yygsZnPlhRHEmwmQ2u6O3oap&authuser=0&export=download");
-        urls.put("Network Layer", "https://drive.google.com/uc?id=1zcVPM7ysshSRk92C5gT95OqBp0NZAWqY&authuser=0&export=download");
-        urls.put("Node", "https://drive.google.com/uc?id=1HHtaTqamqnLeyeJY7a4JyU8TzXWJm2Wl&authuser=0&export=download");
-        urls.put("Packet", "https://drive.google.com/uc?id=1DI-a3Ht859Npgq1hb1MbLDDzFEnIDs7i&authuser=0&export=download");
-        urls.put("Partition", "https://drive.google.com/uc?id=1sWa2FwOSCeM7qwn2kgwHY3OIyPSuuddc&authuser=0&export=download");
-        urls.put("Password Sniffing", "https://drive.google.com/uc?id=1HAUutbhlCOQe2qxmJWlAyoYfXXCI9Tn0&authuser=0&export=download");
-        urls.put("Patch", "https://drive.google.com/uc?id=1DigAND-uw7mf-nKSCYnntdrTpX9s_5vu&authuser=0&export=download");
-        urls.put("Phishing", "https://drive.google.com/uc?id=1E0Hml1W4L8dD_tmGAjlhwBmkDbHNVCng&authuser=0&export=download");
-        urls.put("Physical Layer", "https://drive.google.com/uc?id=12GzFpJ1Tst1hmkaSkOTjDaD4bd3vd0ju&authuser=0&export=download");
-        urls.put("Ping", "https://drive.google.com/uc?id=1jXbjggX8jsbICXIINX4DIYjuQVCvmKU2&authuser=0&export=download");
-        urls.put("Port Scan", "https://drive.google.com/uc?id=1nlJ2EuHYXjnaEI7R5dj0ud19kASg3mqZ&authuser=0&export=download");
-        urls.put("Presentation Layer", "https://drive.google.com/uc?id=1nWyRkTRggGH4o7wwxfI_TgbXIuCRRHx_&authuser=0&export=download");
-        urls.put("Protocol", "https://drive.google.com/uc?id=1NsgrKuktsLu81UXYVygSGXBQrlUFvqU8&authuser=0&export=download");
+        urls.put("Decryption", "https://www.dropbox.com/s/uajulxph25o2z8r/Decryption.mp4");
+        urls.put("Domain", "https://www.dropbox.com/s/mkwqft2syc2lq90/Domain.mp4?dl=1");
+        urls.put("Email", "https://www.dropbox.com/s/zol8kk1x1w6zuol/Email.mp4?dl=1");
+        urls.put("Exposure", "https://www.dropbox.com/s/uzurkb6eff5iu50/Exposure.mp4?dl=1");
+        urls.put("Filter", "https://www.dropbox.com/s/49zwnuejs2jcrcr/Filter.mp4?dl=1");
+        urls.put("Firewall", "https://www.dropbox.com/s/hyena09jk3pniod/Firewall.mp4?dl=1");
+        urls.put("Flooding", "https://www.dropbox.com/s/05szr1hp2gk7irh/Flooding.mp4?dl=1");
+        urls.put("Gateway", "https://www.dropbox.com/s/jumwniudjpx6dw1/Gateway.mp4?dl=1");
+        urls.put("Hacker", "https://www.dropbox.com/s/lge3d1zsj3pruy1/Hacker.mp4?dl=1");
+        urls.put("Header", "https://www.dropbox.com/s/3m41cfyfem23ile/Header.mp4?dl=1");
+        urls.put("Hot Swap", "https://www.dropbox.com/s/n19x27f2yf934i2/HotSwap.mp4?dl=1");
+        urls.put("Hyperlink", "https://www.dropbox.com/s/716b5xsm6vq1630/Hyperlink.mp4?dl=1");
+        urls.put("Infrastructure", "https://www.dropbox.com/s/tqnxwf88xeokvyw/Infrastructure.mp4?dl=1");
+        urls.put("Integrity", "https://www.dropbox.com/s/qc3flqrjl3z7gqg/Integrity.mp4?dl=1");
+        urls.put("Internet", "https://www.dropbox.com/s/aott64kec48s5qo/Internet.mp4?dl=1");
+        urls.put("Intranet", "https://www.dropbox.com/s/3k0fmobhs2wxdai/Intranet.mp4?dl=1");
+        urls.put("Latency", "https://www.dropbox.com/s/ykr85w9iki7pwu0/Latency.mp4?dl=1");
+        urls.put("Loopback", "https://www.dropbox.com/s/su3myi19amjl3ov/Loopback.mp4?dl=1");
+        urls.put("Motherboard", "https://www.dropbox.com/s/9eap2m27drhk0is/Motherboard.mp4?dl=1");
+        urls.put("Network", "https://www.dropbox.com/s/h4002ouwos0k4sp/Network.mp4?dl=1");
+        urls.put("Networking", "https://www.dropbox.com/s/z80yaw0bd31gom6/Networking.mp4?dl=1");
+        urls.put("Network Layer", "https://www.dropbox.com/s/70xyg7rnh32eyyr/Networklayer.mp4?dl=1");
+        urls.put("Node", "https://www.dropbox.com/s/thnzx6x2vka28k7/Node.mp4?dl=1");
+        urls.put("Packet", "https://www.dropbox.com/s/pubdbe1g9yr2n5j/Packet.mp4?dl=1");
+        urls.put("Partition", "https://www.dropbox.com/s/yvjkq77ehzy16jw/Partition.mp4?dl=1");
+        urls.put("Password Sniffing", "https://www.dropbox.com/s/2w6fv527uap0vdh/PasswordSniffing.mp4?dl=1");
+        urls.put("Patch", "https://www.dropbox.com/s/gtrc1e1r3nfii1k/Patch.mp4?dl=1");
+        urls.put("Phishing", "https://www.dropbox.com/s/9ubwe1bsnkdgk5e/Phishing.mp4?dl=1");
+        urls.put("Physical Layer", "https://www.dropbox.com/s/1my6ldydsh1f54z/PhysicalLayer.mp4?dl=1");
+        urls.put("Ping", "https://www.dropbox.com/s/6m0t955zppk4dhq/Ping.mp4?dl=1");
+        urls.put("Port Scan", "https://www.dropbox.com/s/730jj9vsmegib1c/Portscan.mp4?dl=1");
+        urls.put("Presentation Layer", "https://www.dropbox.com/s/fjv3tgc3lpl0xa0/PresentationLayer.mp4?dl=1");
+        urls.put("Protocol", "https://www.dropbox.com/s/283h18e6yl0ffx7/Protocol.mp4?dl=1");
     }
 
     protected void onActivityResult(int requestCode,
