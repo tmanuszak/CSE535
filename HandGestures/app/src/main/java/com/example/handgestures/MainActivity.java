@@ -110,18 +110,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button bt1 = (Button) findViewById(R.id.button);
-
-        if (!hasCamera()) {
-            bt1.setEnabled(false);
-        }
-
-        bt1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startRecording();
-            }
-        });
     }
 
 
