@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             public void onClick(View view) {
                 //Toast.makeText(MainActivity.this, "Button clicked", Toast.LENGTH_LONG).show();
                 String selection = gestureSpinner.getSelectedItem().toString();
-                if (selection != "") {
+                if (selection != "Select a gesture!") {
                     Intent intent = new Intent(MainActivity.this, Main2ActivityNew.class);
                     intent.putExtra("spinner", selection);
                     startActivity(intent);
@@ -438,7 +438,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     }
 
     private void addGesturesToList(ArrayList<String> gestures) {
-        gestures.add("");
+        gestures.add("Select a gesture!");
         gestures.add("AC Power");
         gestures.add("Algorithm");
         gestures.add("Antenna");
