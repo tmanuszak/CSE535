@@ -45,7 +45,7 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 
-public class MainActivity extends AppCompatActivity implements LocationListener {
+public class MainActivity extends AppCompatActivity {
 
     private static final int VIDEO_CAPTURE = 101;
     protected LocationManager locationManager;
@@ -104,61 +104,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 if (!selection.equals("Select a gesture!")) {
                     DownloadTask dw1 = new DownloadTask();
                     dw1.execute(selection);
-                } else {
+                } else { // No gesture was selected.
                     Toast.makeText(MainActivity.this, "You must select a valid gesture.", Toast.LENGTH_LONG).show();
                 }
-
-            }
-        });
-
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        locationManager.requestLocationUpdates(NETWORK_PROVIDER, 0, 0, this);
-        Button bt6 = (Button) findViewById(R.id.button5);
-        bt6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
-                    return;
-                }
-                if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
-                    return;
-                }
-                Location location = locationManager.getLastKnownLocation(GPS_PROVIDER);
-                Toast.makeText(getApplicationContext(), "Current Longitute: " + location.getLongitude() + " Current Latitude: " + location.getLatitude(), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -174,26 +122,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 startRecording();
             }
         });
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        Toast.makeText(getApplicationContext(), "Current Longitute: " + location.getLongitude() + " Current Latitude: " + location.getLatitude(), Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
     }
 
 
@@ -378,7 +306,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 }
             }
 
-
             return "true";
         }
 
@@ -387,15 +314,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         protected void onProgressUpdate(String... text) {
             Toast.makeText(getApplicationContext(), "In Background Task" + text[0], Toast.LENGTH_LONG).show();
         }
-
-//        @Override
-//        protected void onPostExecute(String text){
-//            VideoView vv = (VideoView) findViewById(R.id.videoView);
-//            vv.setVideoPath(Environment.getExternalStorageDirectory()+"/my_folder/Patch.mp4");
-//            vv.start();
-//            Button bt4 = (Button)findViewById(R.id.button3);
-//            bt4.setEnabled(true);
-//        }
     }
 
 

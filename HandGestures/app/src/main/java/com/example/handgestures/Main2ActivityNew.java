@@ -40,14 +40,15 @@ public class Main2ActivityNew extends AppCompatActivity {
             }
         });
 
-        Button backButton = (Button)findViewById(R.id.backToMainActivityButton);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Main2ActivityNew.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
+        // Not really necessary. Just press the "Back" arrow at bottom of phone.
+//        Button backButton = (Button)findViewById(R.id.backToMainActivityButton);
+//        backButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(Main2ActivityNew.this, MainActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
     }
 }
