@@ -316,8 +316,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             }
 
             for (String gesture : selectedGestures) {
-                Log.e("ERROR", "doInBackground: gesture is" + gesture);
-                Log.e("ERROR", "doInBackground: url is " + urls.get(gesture));
                 String fileName = gesture + ".mp4";
                 try {
                     InputStream input = null;
@@ -325,10 +323,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
                         URL url = new URL(urls.get(gesture)); // link of the song which you want to download like (http://...)
                         HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
-                        urlConnection.setRequestMethod("POST");
+                        urlConnection.setRequestMethod("GET");
                         urlConnection.setReadTimeout(95 * 1000);
                         urlConnection.setConnectTimeout(95 * 1000);
-                        urlConnection.setDoInput(true);
+                        // urlConnection.setDoInput(true);
                         urlConnection.setRequestProperty("Accept", "application/json");
                         urlConnection.setRequestProperty("X-Environment", "android");
 
@@ -346,7 +344,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
                         urlConnection.connect();
                         input = urlConnection.getInputStream();
-                        //input = url.openStream();
                         OutputStream output = new FileOutputStream(new File(directory, fileName));
 
                         try {
@@ -475,51 +472,51 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     }
 
     private void setupURLHashtable() {
-        urls.put("AC Power", "https://www.dropbox.com/s/kmx9qbsh7wfxsoj/ACPower.mp4");
-        urls.put("Algorithm", "https://www.signingsavvy.com/media/mp4-ld/23/23188.mp4");
-        urls.put("Antenna", "https://www.dropbox.com/s/c3jtr1e0dy06cqi/Antenna.mp4?dl=1");
-        urls.put("Authentication", "https://www.dropbox.com/s/pkh6ip27bn4wkao/Authentication.mp4?dl=1");
-        urls.put("Authorization", "https://www.dropbox.com/s/ernc0nxzmiao783/Authorization.mp4?dl=1");
-        urls.put("Bandwidth", "https://www.dropbox.com/s/c4aub9ovbha0nax/Bandwidth.mp4?dl=1");
-        urls.put("Bluetooth", "https://www.dropbox.com/s/ecqnhfdbrpjwyxb/Bluetooth.mp4?dl=1");
-        urls.put("Browser", "https://www.dropbox.com/s/dhiyakt71tjek2n/Browser.mp4?dl=1");
-        urls.put("Cloud Computing", "https://www.dropbox.com/s/w82vrwwxjc2epq6/Cloudcomputing.mp4?dl=1");
-        urls.put("Data Compression", "https://www.dropbox.com/s/0dipxauabc2b04e/DataCompression.mp4?dl=1");
-        urls.put("Data Link Layer", "https://www.dropbox.com/s/wi41ahd382tqsgt/DataLinkLayer.mp4?dl=1");
-        urls.put("Data Mining", "https://www.dropbox.com/s/0byl3u9eftn08i6/DataMining.mp4?dl=1");
-        urls.put("Decryption", "https://www.dropbox.com/s/uajulxph25o2z8r/Decryption.mp4");
-        urls.put("Domain", "https://www.dropbox.com/s/mkwqft2syc2lq90/Domain.mp4?dl=1");
-        urls.put("Email", "https://www.dropbox.com/s/zol8kk1x1w6zuol/Email.mp4?dl=1");
-        urls.put("Exposure", "https://www.dropbox.com/s/uzurkb6eff5iu50/Exposure.mp4?dl=1");
-        urls.put("Filter", "https://www.dropbox.com/s/49zwnuejs2jcrcr/Filter.mp4?dl=1");
-        urls.put("Firewall", "https://www.dropbox.com/s/hyena09jk3pniod/Firewall.mp4?dl=1");
-        urls.put("Flooding", "https://www.dropbox.com/s/05szr1hp2gk7irh/Flooding.mp4?dl=1");
-        urls.put("Gateway", "https://www.dropbox.com/s/jumwniudjpx6dw1/Gateway.mp4?dl=1");
-        urls.put("Hacker", "https://www.dropbox.com/s/lge3d1zsj3pruy1/Hacker.mp4?dl=1");
-        urls.put("Header", "https://www.dropbox.com/s/3m41cfyfem23ile/Header.mp4?dl=1");
-        urls.put("Hot Swap", "https://www.dropbox.com/s/n19x27f2yf934i2/HotSwap.mp4?dl=1");
-        urls.put("Hyperlink", "https://www.dropbox.com/s/716b5xsm6vq1630/Hyperlink.mp4?dl=1");
-        urls.put("Infrastructure", "https://www.dropbox.com/s/tqnxwf88xeokvyw/Infrastructure.mp4?dl=1");
-        urls.put("Integrity", "https://www.dropbox.com/s/qc3flqrjl3z7gqg/Integrity.mp4?dl=1");
-        urls.put("Internet", "https://www.dropbox.com/s/aott64kec48s5qo/Internet.mp4?dl=1");
-        urls.put("Intranet", "https://www.dropbox.com/s/3k0fmobhs2wxdai/Intranet.mp4?dl=1");
-        urls.put("Latency", "https://www.dropbox.com/s/ykr85w9iki7pwu0/Latency.mp4?dl=1");
-        urls.put("Loopback", "https://www.dropbox.com/s/su3myi19amjl3ov/Loopback.mp4?dl=1");
-        urls.put("Motherboard", "https://www.dropbox.com/s/9eap2m27drhk0is/Motherboard.mp4?dl=1");
-        urls.put("Network", "https://www.dropbox.com/s/h4002ouwos0k4sp/Network.mp4?dl=1");
-        urls.put("Networking", "https://www.dropbox.com/s/z80yaw0bd31gom6/Networking.mp4?dl=1");
-        urls.put("Network Layer", "https://www.dropbox.com/s/70xyg7rnh32eyyr/Networklayer.mp4?dl=1");
-        urls.put("Node", "https://www.dropbox.com/s/thnzx6x2vka28k7/Node.mp4?dl=1");
-        urls.put("Packet", "https://www.dropbox.com/s/pubdbe1g9yr2n5j/Packet.mp4?dl=1");
-        urls.put("Partition", "https://www.dropbox.com/s/yvjkq77ehzy16jw/Partition.mp4?dl=1");
-        urls.put("Password Sniffing", "https://www.dropbox.com/s/2w6fv527uap0vdh/PasswordSniffing.mp4?dl=1");
-        urls.put("Patch", "https://www.dropbox.com/s/gtrc1e1r3nfii1k/Patch.mp4?dl=1");
-        urls.put("Phishing", "https://www.dropbox.com/s/9ubwe1bsnkdgk5e/Phishing.mp4?dl=1");
-        urls.put("Physical Layer", "https://www.dropbox.com/s/1my6ldydsh1f54z/PhysicalLayer.mp4?dl=1");
-        urls.put("Ping", "https://www.dropbox.com/s/6m0t955zppk4dhq/Ping.mp4?dl=1");
-        urls.put("Port Scan", "https://www.dropbox.com/s/730jj9vsmegib1c/Portscan.mp4?dl=1");
-        urls.put("Presentation Layer", "https://www.dropbox.com/s/fjv3tgc3lpl0xa0/PresentationLayer.mp4?dl=1");
-        urls.put("Protocol", "https://www.dropbox.com/s/283h18e6yl0ffx7/Protocol.mp4?dl=1");
+        urls.put("AC Power", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/5D-2.mp4");
+        urls.put("Algorithm", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/9D-2.mp4");
+        urls.put("Antenna", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/11D-2.mp4");
+        urls.put("Authentication", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/15D-2.mp4");
+        urls.put("Authorization", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/16D-2.mp4");
+        urls.put("Bandwidth", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/19D-2.mp4");
+        urls.put("Bluetooth", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/26D-2.mp4");
+        urls.put("Browser", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/30D-2.mp4");
+        urls.put("Cloud Computing", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/39D-2.mp4");
+        urls.put("Data Compression", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/46D-2.mp4");
+        urls.put("Data Link Layer", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/47D-2.mp4");
+        urls.put("Data Mining", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/48D-2.mp4");
+        urls.put("Decryption", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/51D-2.mp4");
+        urls.put("Domain", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/55D-2.mp4");
+        urls.put("Email", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/60D-2.mp4");
+        urls.put("Exposure", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/63D-2.mp4");
+        urls.put("Filter", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/67D-2.mp4");
+        urls.put("Firewall", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/68D-2.mp4");
+        urls.put("Flooding", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/70D-2.mp4");
+        urls.put("Gateway", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/74D-2.mp4");
+        urls.put("Hacker", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/76D-2.mp4");
+        urls.put("Header", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/80D-2.mp4");
+        urls.put("Hot Swap", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/81D-2.mp4");
+        urls.put("Hyperlink", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/84D-2.mp4");
+        urls.put("Infrastructure", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/87D-2.mp4");
+        urls.put("Integrity", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/88D-2.mp4");
+        urls.put("Internet", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/90D-2.mp4");
+        urls.put("Intranet", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/92D-2.mp4");
+        urls.put("Latency", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/101D-2.mp4");
+        urls.put("Loopback", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/104D-2.mp4");
+        urls.put("Motherboard", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/108D-2.mp4");
+        urls.put("Network", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/110D-2.mp4");
+        urls.put("Networking", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/113D-2.mp4");
+        urls.put("Network Layer", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/112D-2.mp4");
+        urls.put("Node", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/114D-1.mp4");
+        urls.put("Packet", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/118D-2.mp4");
+        urls.put("Partition", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/119D-1.mp4");
+        urls.put("Password Sniffing", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/120D-1.mp4");
+        urls.put("Patch", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/121D-1.mp4");
+        urls.put("Phishing", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/123D-1.mp4");
+        urls.put("Physical Layer", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/124D-1.mp4");
+        urls.put("Ping", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/125D-1.mp4");
+        urls.put("Port Scan", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/130D-1.mp4");
+        urls.put("Presentation Layer", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/131D-1.mp4");
+        urls.put("Protocol", "https://deaftec.org/stem-dictionary/wp-content/uploads/sites/7/2019/08/132D-1.mp4");
     }
 
     protected void onActivityResult(int requestCode,
