@@ -439,10 +439,51 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     private void addGesturesToList(ArrayList<String> gestures) {
         gestures.add("");
+        gestures.add("AC Power");
         gestures.add("Algorithm");
+        gestures.add("Antenna");
+        gestures.add("Authentication");
+        gestures.add("Authorization");
+        gestures.add("Bandwidth");
+        gestures.add("Bluetooth");
+        gestures.add("Browser");
+        gestures.add("Cloud Computing");
+        gestures.add("Data Compression");
+        gestures.add("Data Link Layer");
+        gestures.add("Data Mining");
+        gestures.add("Decryption");
+        gestures.add("Domain");
+        gestures.add("Email");
+        gestures.add("Exposure");
         gestures.add("Filter");
+        gestures.add("Firewall");
+        gestures.add("Flooding");
+        gestures.add("Gateway");
+        gestures.add("Hacker");
+        gestures.add("Header");
+        gestures.add("Hot Swap");
+        gestures.add("Hyperlink");
+        gestures.add("Infrastructure");
+        gestures.add("Integrity");
+        gestures.add("Internet");
+        gestures.add("Intranet");
+        gestures.add("Latency");
+        gestures.add("Loopback");
+        gestures.add("Motherboard");
         gestures.add("Network");
+        gestures.add("Networking");
+        gestures.add("Network Layer");
+        gestures.add("Node");
+        gestures.add("Packet");
+        gestures.add("Partition");
+        gestures.add("Password Sniffing");
         gestures.add("Patch");
+        gestures.add("Phishing");
+        gestures.add("Physical Layer");
+        gestures.add("Ping");
+        gestures.add("Port Scan");
+        gestures.add("Presentation Layer");
+        gestures.add("Protocol");
     }
 
     protected void onActivityResult(int requestCode,
