@@ -17,6 +17,7 @@ public class Main2ActivityNew extends AppCompatActivity {
         setContentView(R.layout.activity_main2_new);
 
         Bundle extras = getIntent().getExtras();
+        assert extras != null;
         String selection = extras.getString("spinner");
         Toast.makeText(Main2ActivityNew.this, selection, Toast.LENGTH_LONG).show();
 
@@ -34,12 +35,12 @@ public class Main2ActivityNew extends AppCompatActivity {
             }
         });
 
-        Button bt2 = (Button)findViewById(R.id.button2);
-        bt2.setOnClickListener(new View.OnClickListener() {
+        Button backButton = (Button)findViewById(R.id.backToMainActivityButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent int2 = new Intent(Main2ActivityNew.this, MainActivity.class);
-                startActivity(int2);
+                Intent intent = new Intent(Main2ActivityNew.this, MainActivity.class);
+                startActivity(intent);
             }
         });
 

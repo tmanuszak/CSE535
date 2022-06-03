@@ -70,16 +70,18 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         gestureSpinner.setAdapter(gesturesAdapter);
         //Toast.makeText(MainActivity.this, "Hello", Toast.LENGTH_LONG).show();
 
-        Button learn = (Button) findViewById(R.id.button6);
+        Button learn = (Button) findViewById(R.id.LearnButton);
         learn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Toast.makeText(MainActivity.this, "Button clicked", Toast.LENGTH_LONG).show();
                 String selection = gestureSpinner.getSelectedItem().toString();
-                if (selection != "Select a gesture!") {
+                if (!selection.equals("Select a gesture!")) {
                     Intent intent = new Intent(MainActivity.this, Main2ActivityNew.class);
                     intent.putExtra("spinner", selection);
                     startActivity(intent);
+                } else { // No gesture was selected (i.e. The hint is still selected)
+                    Toast.makeText(MainActivity.this, "You must select a valid gesture.", Toast.LENGTH_LONG).show();
                 }
             }
         });
