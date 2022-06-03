@@ -6,6 +6,7 @@ import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -21,8 +22,12 @@ public class Main2ActivityNew extends AppCompatActivity {
         String selection = extras.getString("spinner");
         Toast.makeText(Main2ActivityNew.this, selection, Toast.LENGTH_LONG).show();
 
+        // Making the video have a play and rewind button
+        MediaController mediaController = new MediaController(this);
+
         VideoView vv = (VideoView) findViewById(R.id.videoView);
         vv.setVideoPath(Environment.getExternalStorageDirectory()+"/my_folder/"+selection+".mp4");
+        vv.setMediaController(mediaController);
         vv.start();
 
         Button practice = (Button) findViewById(R.id.practice);
