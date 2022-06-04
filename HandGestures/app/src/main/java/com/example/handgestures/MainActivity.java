@@ -80,11 +80,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //Toast.makeText(MainActivity.this, "Button clicked", Toast.LENGTH_LONG).show();
                 String selection = gestureSpinner.getSelectedItem().toString();
-                if (!selection.equals("Select a gesture!")) {
+                File gestureFile = new File(Environment.getExternalStorageDirectory() + "/my_folder/" + selection + ".mp4");
+                if (!selection.equals("Select a gesture!") && gestureFile.exists()) {
                     Intent intent = new Intent(MainActivity.this, Main2ActivityNew.class);
                     intent.putExtra("spinner", selection);
                     startActivity(intent);
-                } else { // No gesture was selected (i.e. The hint is still selected)
+                } else if (!gestureFile.exists()) {
+                    Toast.makeText(MainActivity.this, "Gesture video is not downloaded.", Toast.LENGTH_LONG).show();
+                } else {// No gesture was selected (i.e. The hint is still selected)
                     Toast.makeText(MainActivity.this, "You must select a valid gesture.", Toast.LENGTH_LONG).show();
                 }
             }
