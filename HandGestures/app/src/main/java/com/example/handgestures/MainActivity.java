@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 File gestureFile = new File(Environment.getExternalStorageDirectory() + "/my_folder/" + selection + ".mp4");
                 if (!selection.equals("Select a gesture!") && gestureFile.exists()) {
                     Intent intent = new Intent(MainActivity.this, Main2ActivityNew.class);
-                    intent.putExtra("spinner", selection);
+                    intent.putExtra("gesture", selection);
                     startActivity(intent);
                 } else if (!gestureFile.exists()) {
                     Toast.makeText(MainActivity.this, "Gesture video is not downloaded.", Toast.LENGTH_LONG).show();

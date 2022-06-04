@@ -19,7 +19,7 @@
         -->
 
     <Button
-        android:id="@+id/practice"
+        android:id="@+id/practiceButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Practice"
@@ -34,7 +34,7 @@
         android:id="@+id/videoView"
         android:layout_width="311dp"
         android:layout_height="188dp"
-        app:layout_constraintBottom_toTopOf="@+id/practice"
+        app:layout_constraintBottom_toTopOf="@+id/practiceButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
