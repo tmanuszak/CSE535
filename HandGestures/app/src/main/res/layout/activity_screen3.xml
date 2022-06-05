@@ -6,17 +6,70 @@
     android:layout_height="match_parent"
     tools:context=".screen3">
 
+    <LinearLayout
+        android:id="@+id/llScreen3V"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/videoViewScreen3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" >
+
+        <LinearLayout
+            android:id="@+id/llScreen3HLastName"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/llScreen3HNumber"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Last Name: " />
+            <EditText
+                android:id="@+id/lastNameText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:width="120dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llScreen3HNumber"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/llScreen3HLastName"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Practice Number: " />
+            <EditText
+                android:id="@+id/practiceNumberText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:width="120dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
     <VideoView
         android:id="@+id/videoViewScreen3"
         android:layout_width="311dp"
         android:layout_height="311dp"
-        app:layout_constraintBottom_toTopOf="@id/llScreen3"
+        app:layout_constraintBottom_toTopOf="@id/llScreen3Buttons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/llScreen3V" />
 
     <LinearLayout
-        android:id="@+id/llScreen3"
+        android:id="@+id/llScreen3Buttons"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:orientation="horizontal"
@@ -47,7 +100,6 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
-            android:onClick="recordVideoButtonPressed"
             android:text="Record Video"
             app:layout_constraintBottom_toBottomOf="@id/uploadButton"
             app:layout_constraintEnd_toStartOf="@+id/uploadButton"
