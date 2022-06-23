@@ -21,8 +21,17 @@ import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+// FTP imports
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
+
+// ok http imports
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -162,117 +171,65 @@ public class screen3 extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... strings) {
-            String TAG = "UPLOAD_VIDEO";
 
-            FTPClient ftpClient = new FTPClient();
-            String server = getString(R.string.server);
-            String username = getString(R.string.username);
-            String password = getString(R.string.password);
-
-            try {
-                ftpClient.connect(server, 21);
-                ftpClient.login(username, password);
-                ftpClient.enterLocalPassiveMode();
-                ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
-
-                Log.e(TAG, "FTP Reply String:" + ftpClient.getReplyString());
-
-                ftpClient.changeWorkingDirectory("HandGesturesPracticeVideos");
-                Log.e(TAG, "FTP Reply String:" + ftpClient.getReplyString());
-
-                File videoFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
-                        + "/PracticeVideos/" + selection + "_PRACTICE_" + practiceNumberEditText.getText().toString() + "_" + lastNameEditText.getText().toString() + ".mp4");
-
-                InputStream inputStream = new FileInputStream(videoFile);
-                ftpClient.storeFile(selection + "_PRACTICE_" + practiceNumberEditText.getText().toString() + "_" + lastNameEditText.getText().toString() + ".mp4", inputStream);
-                Log.e(TAG, "FTP Reply String:" + ftpClient.getReplyString());
-                inputStream.close();
-
-                ftpClient.logout();
-                ftpClient.disconnect();
-
-
-
-//                String url = "http://10.218.107.121/cse535/upload_video.php";
-//                String charset = "UTF-8";
-//                String lastName = lastNameEditText.getText().toString();
-//                String practiceNumber = practiceNumberEditText.getText().toString();
+            // SFTP CODE
+//            String TAG = "UPLOAD_VIDEO";
 //
+//            FTPClient ftpClient = new FTPClient();
+//            String server = getString(R.string.server);
+//            String username = getString(R.string.username);
+//            String password = getString(R.string.password);
+//
+//            try {
+//
+//                ftpClient.connect(server, 21);
+//                ftpClient.login(username, password);
+//                ftpClient.enterLocalPassiveMode();
+//                ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
+//
+//                Log.e(TAG, "FTP Reply String:" + ftpClient.getReplyString());
+//
+//                ftpClient.changeWorkingDirectory("HandGesturesPracticeVideos");
+//                Log.e(TAG, "FTP Reply String:" + ftpClient.getReplyString());
 //
 //                File videoFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
 //                        + "/PracticeVideos/" + selection + "_PRACTICE_" + practiceNumberEditText.getText().toString() + "_" + lastNameEditText.getText().toString() + ".mp4");
-//                String boundary = Long.toHexString(System.currentTimeMillis()); // Just generate some unique random value.
-//                String CRLF = "\r\n"; // Line separator required by multipart/form-data.
 //
-//                URLConnection connection;
+//                InputStream inputStream = new FileInputStream(videoFile);
+//                ftpClient.storeFile(selection + "_PRACTICE_" + practiceNumberEditText.getText().toString() + "_" + lastNameEditText.getText().toString() + ".mp4", inputStream);
+//                Log.e(TAG, "FTP Reply String:" + ftpClient.getReplyString());
+//                inputStream.close();
 //
-//                connection = new URL(url).openConnection();
-//                connection.setDoOutput(true);
-//                connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
-//
-//                try (
-//                        OutputStream output = connection.getOutputStream();
-//                        PrintWriter writer = new PrintWriter(new OutputStreamWriter(output, charset), true);
-//                ) {
-//                    // Send normal accept.
-//                    writer.append("--" + boundary).append(CRLF);
-//                    writer.append("Content-Disposition: form-data; name=\"id\"").append(CRLF);
-//                    writer.append("Content-Type: text/plain; charset=" + charset).append(CRLF);
-//                    writer.append(CRLF).append(ASUid).append(CRLF).flush();
-//
-//                    // Send normal accept.
-//                    writer.append("--" + boundary).append(CRLF);
-//                    writer.append("Content-Disposition: form-data; name=\"group_id\"").append(CRLF);
-//                    writer.append("Content-Type: text/plain; charset=" + charset).append(CRLF);
-//                    writer.append(CRLF).append(group_id).append(CRLF).flush();
+//                ftpClient.logout();
+//                ftpClient.disconnect();
 //
 //
-//                    // Send video file.
-//                    writer.append("--" + boundary).append(CRLF);
-//                    writer.append("Content-Disposition: form-data; name=\"uploaded_file\"; filename=\"" + videoFile.getName() + "\"").append(CRLF);
-//                    writer.append("Content-Type: video/mp4; charset=" + charset).append(CRLF); // Text file itself must be saved in this charset!
-//                    writer.append(CRLF).flush();
-//                    FileInputStream vf = new FileInputStream(videoFile);
-//                    try {
-//                        byte[] buffer = new byte[1024];
-//                        int bytesRead = 0;
-//                        while ((bytesRead = vf.read(buffer, 0, buffer.length)) >= 0) {
-//                            output.write(buffer, 0, bytesRead);
-//
-//                        }
-//                        //   output.close();
-//                        //Toast.makeText(getApplicationContext(),"Read Done", Toast.LENGTH_LONG).show();
-//                    } catch (Exception exception) {
 //
 //
-//                        //Toast.makeText(getApplicationContext(),"output exception in catch....."+ exception + "", Toast.LENGTH_LONG).show();
-//                        Log.d("Error", String.valueOf(exception));
-//                        publishProgress(String.valueOf(exception));
-//                        // output.close();
 //
-//                    }
-//
-//                    output.flush(); // Important before continuing with writer!
-//                    writer.append(CRLF).flush(); // CRLF is important! It indicates end of boundary.
-//
-//
-//                    // End of multipart/form-data.
-//                    writer.append("--" + boundary + "--").append(CRLF).flush();
-//                } catch (UnsupportedEncodingException e) {
-//                    e.printStackTrace();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                // Request is lazily fired whenever you need to obtain information about response.
-//                int responseCode = ((HttpURLConnection) connection).getResponseCode();
-//                System.out.println(responseCode); // Should be 200
-//
-//            } catch (IOException e) {
+//                return null;
+//            } catch (Exception e) {
 //                e.printStackTrace();
 //            }
+            // ------------------------------------------------------------------------------------
 
-                return null;
+            try {
+                File vidfile = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
+                        + "/PracticeVideos/" + selection + "_PRACTICE_" + practiceNumberEditText.getText().toString()
+                        + "_" + lastNameEditText.getText().toString() + ".mp4");
+                OkHttpClient client = new OkHttpClient().newBuilder()
+                        .build();
+                MediaType mediaType = MediaType.parse("text/plain");
+                RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                        .addFormDataPart("videofile",vidfile.getName(),
+                                RequestBody.create(MediaType.parse("application/octet-stream"),
+                                        vidfile))
+                        .build();
+                Request request = new Request.Builder()
+                        .url("http://ec2-34-227-161-78.compute-1.amazonaws.com:3000/")
+                        .method("POST", body)
+                        .build();
+                Response response = client.newCall(request).execute();
             } catch (Exception e) {
                 e.printStackTrace();
             }
