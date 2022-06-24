@@ -6,23 +6,35 @@
 const fs = require('fs');
 const express = require('express');
 const server = express();
-const router = express.Router();
 const PORT = 3000;
 
+server.use(express.static('public'));
 
 // multer imports
-// uploaded images are saved in the folder "/upload_images"
 const multer = require('multer');
-const upload = multer({dest: '/home/ubuntu/test'});
 
-// Upload image to S3 input bucket and send message to the request SQS queue
-router.post('/', function (req, res) {
-	
-	console.log(req)
+var storage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, '/home/ubuntu/test');
+    },
+    filename: function (req, file, callback) {
+        callback(null, file.originalname);
+    }
+});
 
+var upload = multer({ storage: storage }).single('videofile');
 
-	res.end("yes")
-
+server.post('/', async (req, res) => {
+		console.log(req);
+    upload(req, res, function (err) {
+        if (err) {
+            console.log(err)
+        } else {
+        		var FileName = req.file.filename;
+            console.log("Uploaded file " + FileName);
+						res.status(200).send(FileName);
+        }
+    })
 });
 
 const hostname = '0.0.0.0';
