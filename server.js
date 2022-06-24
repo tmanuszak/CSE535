@@ -10,6 +10,7 @@ const fs = require('fs');
 const express = require('express');
 const server = express();
 const PORT = 3000;
+const execSync = require('child_process').execSync;
 
 server.use(express.static('public'));
 
@@ -37,6 +38,11 @@ server.post('/upload', async (req, res) => {
 				var FileName = req.file.filename;
 				console.log("Uploaded file " + FileName);
 				res.status(200).send("Upload successful.");
+				
+				// Make frames
+				// This process will stop if not completed in 10 minutes
+				const output = execSync('python3 Frames_Extractor.py', { timeout: 600000, cwd: '/home/ubuntu/posenet_nodejs_setup-master/Python\ Scripts/' });
+				console.log(output);
 			}
 		})
 	} else {
