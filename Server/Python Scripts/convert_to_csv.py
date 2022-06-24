@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import os
 
-path_to_videos = "D:/Computer Engineering/Continuous Sign Translation/test_delete/"
+path_to_videos = "/home/ubuntu/test/"
 
 
 def convert_to_csv(path_to_video):

@@ -48,7 +48,8 @@ let guiState = {
 // Path to the location where frames of all the video files are stored
 getArgumentValue = process.argv[2];
 if (getArgumentValue === undefined) {
-    photo_path_to_frames = "D:/Computer Engineering/Grade_CSE535/Assignment_2_videos/Tuesday/videos2prashanth/dd/";
+		console.log("NEED TO INPUT DIRECTORY OF PNGs AS THIRD COMMAND ARGUMENT")
+		// photo_path_to_frames = "/home/ubuntu";
 } else {
     photo_path_to_frames = getArgumentValue;
 }
@@ -94,25 +95,32 @@ async function cascading_images_pose_estimation(photo_path, choice) {
     fs.readdir(photo_path, async function (err, items) {
         let func_path = "";
         for (let i = 0; i < items.length; i++) {
-            let pose_list = [];
-            if (path.extname(items[i]) === "") {
-                console.log(items[i]);
-                func_path = photo_path + items[i] + "/";
+            try {
+                let pose_list = [];
+                if (path.extname(items[i]) === "") {
+                    console.log(items[i]);
+                    func_path = photo_path + items[i] + "/";
 
-                let length = fs.readdirSync(func_path).length;
-                for (let i = 0; i < length - 1; i++) {
-                    let image = await loadImage(func_path + i + ".png");
-                    // image.src = func_path + i + ".png";
-                    canvas = createCanvas(image.width, image.height);
-                    ctx = canvas.getContext('2d');
-                    ctx.drawImage(image, 0, 0);
-                    input = tf.browser.fromPixels(canvas);
-                    let pose = await single_net.estimateSinglePose(input, imageScaleFactor, flipHorizontal, outputStride);
-                    pose_list.push(pose);
+                    let length = fs.readdirSync(func_path).length;
+                    for (let i = 0; i < length - 1; i++) {
+                        let image = await loadImage(func_path + i + ".png");
+                        // image.src = func_path + i + ".png";
+                        canvas = createCanvas(image.width, image.height);
+                        ctx = canvas.getContext('2d');
+                        ctx.drawImage(image, 0, 0);
+                        input = tf.browser.fromPixels(canvas);
+                        let pose = await single_net.estimateSinglePose(input, imageScaleFactor, flipHorizontal, outputStride);
+												tf.dispose(input)
+                        pose_list.push(pose);
+                    }
+
+                    fs.writeFileSync(func_path + "key_points.json", JSON.stringify(pose_list));
+                    console.log("Key Points File for \"" + items[i] + "\" has been created");
+            
                 }
-
-                fs.writeFileSync(func_path + "key_points.json", JSON.stringify(pose_list));
-                console.log("Key Points File for \"" + items[i] + "\" has been created");
+            } catch(err) {
+                console.log("ERROR: " + items[i]);
+                console.log(err);
             }
         }
     });
@@ -129,8 +137,12 @@ async function loadImage(path) {
     return promise;
 }
 
+/*
 readline.question(`Input your Architecture.\n 1. MobileNetV1\n 2. ResNet50\n`, (name) => {
     cascading_images_pose_estimation(photo_path_to_frames, name).then(r => console.log("Key Points generated Successfully."), () => console.log("Error occurred in generating keypoints."));
     readline.close();
     process.stdin.destroy();
 });
+*/
+cascading_images_pose_estimation(photo_path_to_frames, 1).then(r => console.log("Key Points generated Successfully."), () => console.log("Error occurred in generating keypoints."));
+process.stdin.destroy();
