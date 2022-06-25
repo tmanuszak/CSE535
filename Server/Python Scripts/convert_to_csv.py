@@ -2,8 +2,9 @@ import json
 import numpy as np
 import pandas as pd
 import os
+import sys
 
-path_to_videos = "/home/ubuntu/test/"
+path_to_videos = sys.argv[1]
 
 
 def convert_to_csv(path_to_video):
@@ -35,4 +36,5 @@ if __name__ == '__main__':
     for file in files:
         if not os.path.isdir(path_to_videos + file + "/"):
             new_path = path_to_videos + os.path.splitext(file)[0] + "/"
-            convert_to_csv(new_path)
+            if not os.path.exists(new_path + "key_points.csv"):
+                convert_to_csv(new_path)

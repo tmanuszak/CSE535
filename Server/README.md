@@ -58,4 +58,4 @@ To generate JSON keypoints, run the command from the posenet folder:
 
 To generate csv keypoints from the json keypoints, run the command from the Python Scripts folder:
 
-`python3 convert_to_csv.py`
+`python3 convert_to_csv.py /home/ubuntu/HandGesturesPracticeVideos/`

@@ -112,7 +112,7 @@ public class screen3 extends AppCompatActivity {
                         && !Objects.equals(lastNameEditText.getText().toString(), "")
                         && !Objects.equals(practiceNumberEditText.getText().toString(), "")) {
                     UploadTask up1 = new UploadTask();
-                    Toast.makeText(getApplicationContext(), "Stating to Upload", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Stating to Upload", Toast.LENGTH_SHORT).show();
                     up1.execute();
                 } else if (!mediaFile.exists()) {
                     Toast.makeText(getApplicationContext(), "You must make a video to upload.", Toast.LENGTH_LONG).show();
@@ -217,19 +217,32 @@ public class screen3 extends AppCompatActivity {
                 File vidfile = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
                         + "/PracticeVideos/" + selection + "_PRACTICE_" + practiceNumberEditText.getText().toString()
                         + "_" + lastNameEditText.getText().toString() + ".mp4");
+
                 OkHttpClient client = new OkHttpClient().newBuilder()
                         .build();
+
                 MediaType mediaType = MediaType.parse("text/plain");
+
                 RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
                         .addFormDataPart("videofile",vidfile.getName(),
                                 RequestBody.create(MediaType.parse("application/octet-stream"),
                                         vidfile))
                         .build();
+
                 Request request = new Request.Builder()
-                        .url("http://ec2-34-227-161-78.compute-1.amazonaws.com:3000/")
+                        .url(getString(R.string.webServerURL))
                         .method("POST", body)
+                        .addHeader("user", "CSE535Group") // so I know this request came from the app
                         .build();
+
                 Response response = client.newCall(request).execute();
+
+                if (response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "Upload successful. Wait 2-3 minutes before getting the classification.", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_LONG).show();
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

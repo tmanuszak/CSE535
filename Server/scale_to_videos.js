@@ -98,25 +98,27 @@ async function cascading_images_pose_estimation(photo_path, choice) {
             try {
                 let pose_list = [];
                 if (path.extname(items[i]) === "") {
-                    console.log(items[i]);
-                    func_path = photo_path + items[i] + "/";
+                    // if there is no key points json already made
+                    if (!fs.existsSync(photo_path + items[i] + "/key_points.json")) {
+												console.log(items[i]);
+												func_path = photo_path + items[i] + "/";
 
-                    let length = fs.readdirSync(func_path).length;
-                    for (let i = 0; i < length - 1; i++) {
-                        let image = await loadImage(func_path + i + ".png");
-                        // image.src = func_path + i + ".png";
-                        canvas = createCanvas(image.width, image.height);
-                        ctx = canvas.getContext('2d');
-                        ctx.drawImage(image, 0, 0);
-                        input = tf.browser.fromPixels(canvas);
-                        let pose = await single_net.estimateSinglePose(input, imageScaleFactor, flipHorizontal, outputStride);
-												tf.dispose(input)
-                        pose_list.push(pose);
+												let length = fs.readdirSync(func_path).length;
+												for (let i = 0; i < length - 1; i++) {
+														let image = await loadImage(func_path + i + ".png");
+														// image.src = func_path + i + ".png";
+														canvas = createCanvas(image.width, image.height);
+														ctx = canvas.getContext('2d');
+														ctx.drawImage(image, 0, 0);
+														input = tf.browser.fromPixels(canvas);
+														let pose = await single_net.estimateSinglePose(input, imageScaleFactor, flipHorizontal, outputStride);
+														tf.dispose(input)
+														pose_list.push(pose);
+												}
+
+												fs.writeFileSync(func_path + "key_points.json", JSON.stringify(pose_list));
+												console.log("Key Points File for \"" + items[i] + "\" has been created");
                     }
-
-                    fs.writeFileSync(func_path + "key_points.json", JSON.stringify(pose_list));
-                    console.log("Key Points File for \"" + items[i] + "\" has been created");
-            
                 }
             } catch(err) {
                 console.log("ERROR: " + items[i]);
