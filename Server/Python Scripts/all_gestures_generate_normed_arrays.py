@@ -1,8 +1,8 @@
 """
 This file will generate normed wrist coordinate arrays for ALL videos in 
-<DIRECTORY>. (must be an absolute path)
-Use the command:
-python3 all_gestures_generate_normed_arrays.py <DIRECTORY>
+<DIRECTORY>. (must be an absolute path and the keypoints csv must have been created.)
+Ex:
+python3 all_gestures_generate_normed_arrays.py /home/ubuntu/HandGesturesPracticeVideos/
 """
 
 
