@@ -2,8 +2,9 @@
  * @file server.js: handles concurrent requests
  */
 
-// Video file folder
-const videofolder = '/home/ubuntu/test';
+// Video file folder that gets uploaded to
+const videofolder = '/home/ubuntu/NewVideos';
+const practicevideofolder = '/home/ubuntu/HandGesturesPracticeVideos';
 
 // Server imports
 const fs = require('fs');
@@ -33,7 +34,7 @@ server.post('/upload', async (req, res) => {
 		upload(req, res, function (err) {
 			if (err) {
 				console.log(err);
-				res.status(500).send("An error occurred on the server while uploading.");
+				return res.status(500).send("An error occurred on the server while uploading.");
 			} else {
 				var FileName = req.file.filename;
 				console.log("Uploaded file " + FileName + " to " + videofolder);
@@ -69,7 +70,7 @@ server.post('/upload', async (req, res) => {
 				execSync('node scale_to_videos.js ' + videofolder + "/",
 					{
 						timeout: 300000,
-						cwd: 'home/ubuntu/posenet_nodejs_setup-master/',
+						cwd: '/home/ubuntu/posenet_nodejs_setup-master/',
 						stdio: 'ignore'
 					});
 				
@@ -96,12 +97,57 @@ server.post('/upload', async (req, res) => {
 					console.log(FileName + " succussfully made CSV keypoints.");
 				}
 
+				execSync('python3 gesture_id.py ' + practicevideofolder + '/ ' + videofolder + "/'" + FileName + "'",
+					{
+						timeout: 300000,
+						cwd: '/home/ubuntu/posenet_nodejs_setup-master/Python\ Scripts/',
+						stdio: 'ignore'
+					});
+				
+				// Check if category file was made correctly
+				if (!fs.existsSync(videofolder + "/" + FileName.replace('.mp4', '') + "/category.txt")) {
+					console.log("ERROR: " + FileName + " didn't classsify properly.");
+					return;
+				} else {
+					const category = fs.readFileSync(videofolder + '/' + FileName.replace('.mp4', '') + '/category.txt'); 
+					console.log(FileName + " succussfully categorized as " + category);
+				}
+				
 				return;
 			
 			}
 		})
 	} else {
-		res.status(401).send("Unauthorized.");
+		return res.status(401).send("Unauthorized.");
+	}
+});
+
+server.get('/classification', async (req, res) => {
+	if (req.headers.user !== 'CSE535Group') {
+		return res.status(401).send("Unauthorized to use this.");
+	}
+
+	if (!req.headers.file) {
+		return res.status(400).send("No file was given");
+	}
+
+	file_requested = req.headers.file;
+
+	try {
+		if (!fs.existsSync(videofolder + "/" + file_requested)) {
+			return res.status(400).send("The file requested does not exist.");
+		}
+		
+		if (!fs.existsSync(videofolder + "/" + file_requested.replace('.mp4', '') + '/category.txt')) {
+			return res.status(404).send("The requested file has not finished classification.");
+		}
+
+		const category = fs.readFileSync(videofolder + '/' + file_requested.replace('.mp4', '') + '/category.txt');
+		console.log("Server returning category " + category + " for " + file_requested);
+		res.status(200).send(category);
+	} catch (err) {
+		console.log("ERROR: an error occurred when trying to get the classification.");
+		return res.status(500).send("Error on the server.");
 	}
 });
 
