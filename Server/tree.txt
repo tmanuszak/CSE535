@@ -1,0 +1,36 @@
+/home/ubuntu/
+├── HandGesturesPracticeVideos
+│   ├── <Gesture>_PRACTICE_<#>_<Last Name>
+│   │   ├── <PNG Frames>
+│   │   ├── category.txt
+│   │   ├── key_points.csv
+│   │   ├── key_points.json
+│   │   ├── left_wrist_X_norm.npy
+│   │   ├── left_wrist_Y_norm.npy
+│   │   ├── right_wrist_X_norm.npy
+│   │   └── right_wrist_Y_norm.npy
+│   └── <Gesture>_PRACTICE_<#>_<Last Name>.mp4
+├── NewVideos (This is where uploaded videos go)
+│   ├── <Gesture>_PRACTICE_<#>_<Last Name>
+│   │   ├── <PNG Frame #>.png
+│   │   ├── category.txt (after classification)
+│   │   ├── key_points.csv
+│   │   └── key_points.json
+│   └── <Gesture>_PRACTICE_<#>_<Last Name>.mp4
+└── posenet_nodejs_setup-master
+    ├── 0.60.0
+│   │   └── ...
+    ├── Python Scripts
+    │   ├── Frames_Extractor.py
+    │   ├── all_gestures_generate_normed_arrays.py
+    │   ├── gesture_id.py
+    │   ├── add_category_files.py
+    │   └── convert_to_csv.py
+    ├── README.md
+    ├── scale_to_videos.js
+    ├── server.js
+    ├── package.js
+    ├── package-lock.js
+    ├── object.js
+    └── node_modules
+        └── ...
