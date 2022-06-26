@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.MediaController;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -55,6 +56,7 @@ public class screen3 extends AppCompatActivity {
     private VideoView v;
     private EditText lastNameEditText;
     private EditText practiceNumberEditText;
+    private RadioGroup rg;
     private static File mediaFile;
 
     @Override
@@ -64,6 +66,7 @@ public class screen3 extends AppCompatActivity {
         MediaController mediaController = new MediaController(this);
         v = findViewById(R.id.videoViewScreen3);
         v.setMediaController(mediaController);
+        rg = findViewById(R.id.knowledgeRadioGroup);
 
         // Getting the selected gesture from Screen 1
         Bundle extras = getIntent().getExtras();
@@ -122,6 +125,28 @@ public class screen3 extends AppCompatActivity {
                 }
             }
         });
+
+        // Send GET request for the classification of the video
+        Button classifyButton = (Button) findViewById(R.id.classifyButton);
+        classifyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                assert mediaFile != null;
+                if (mediaFile.exists()
+                        && mediaFile != null
+                        && !Objects.equals(selection, "")
+                        && !Objects.equals(lastNameEditText.getText().toString(), "")
+                        && !Objects.equals(practiceNumberEditText.getText().toString(), "")) {
+                    ClassificationTask classification = new ClassificationTask();
+                    classification.execute();
+                } else if (!mediaFile.exists()) {
+                    Toast.makeText(getApplicationContext(), "You must make a video and upload it before classifying.", Toast.LENGTH_LONG).show();
+                } else if (Objects.equals(lastNameEditText.getText().toString(), "")
+                        || Objects.equals(practiceNumberEditText.getText().toString(), "")) {
+                    Toast.makeText(getApplicationContext(), "You must input your last name and practice number.", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     public void startRecording() {
@@ -172,47 +197,6 @@ public class screen3 extends AppCompatActivity {
         @Override
         protected String doInBackground(String... strings) {
 
-            // SFTP CODE
-//            String TAG = "UPLOAD_VIDEO";
-//
-//            FTPClient ftpClient = new FTPClient();
-//            String server = getString(R.string.server);
-//            String username = getString(R.string.username);
-//            String password = getString(R.string.password);
-//
-//            try {
-//
-//                ftpClient.connect(server, 21);
-//                ftpClient.login(username, password);
-//                ftpClient.enterLocalPassiveMode();
-//                ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
-//
-//                Log.e(TAG, "FTP Reply String:" + ftpClient.getReplyString());
-//
-//                ftpClient.changeWorkingDirectory("HandGesturesPracticeVideos");
-//                Log.e(TAG, "FTP Reply String:" + ftpClient.getReplyString());
-//
-//                File videoFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
-//                        + "/PracticeVideos/" + selection + "_PRACTICE_" + practiceNumberEditText.getText().toString() + "_" + lastNameEditText.getText().toString() + ".mp4");
-//
-//                InputStream inputStream = new FileInputStream(videoFile);
-//                ftpClient.storeFile(selection + "_PRACTICE_" + practiceNumberEditText.getText().toString() + "_" + lastNameEditText.getText().toString() + ".mp4", inputStream);
-//                Log.e(TAG, "FTP Reply String:" + ftpClient.getReplyString());
-//                inputStream.close();
-//
-//                ftpClient.logout();
-//                ftpClient.disconnect();
-//
-//
-//
-//
-//
-//                return null;
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-            // ------------------------------------------------------------------------------------
-
             try {
                 File vidfile = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
                         + "/PracticeVideos/" + selection + "_PRACTICE_" + practiceNumberEditText.getText().toString()
@@ -230,7 +214,7 @@ public class screen3 extends AppCompatActivity {
                         .build();
 
                 Request request = new Request.Builder()
-                        .url(getString(R.string.webServerURL))
+                        .url(getString(R.string.webServerURLUpload))
                         .method("POST", body)
                         .addHeader("user", "CSE535Group") // so I know this request came from the app
                         .build();
@@ -238,16 +222,16 @@ public class screen3 extends AppCompatActivity {
                 Response response = client.newCall(request).execute();
 
                 if (response.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), "Upload successful. Wait 2-3 minutes before getting the classification.", Toast.LENGTH_LONG).show();
+                    return "Upload successful. Wait 2-3 minutes before getting the classification.";
                 } else {
-                    Toast.makeText(getApplicationContext(), response.message(), Toast.LENGTH_LONG).show();
+                    return Objects.requireNonNull(response.body()).string();
                 }
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            return null;
+            return "";
         }
 
 
@@ -256,5 +240,63 @@ public class screen3 extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "In Background Task " + text[0], Toast.LENGTH_LONG).show();
         }
 
+        @Override
+        protected void onPostExecute (String result) {
+            Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    public class ClassificationTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            try {
+                if (rg.getCheckedRadioButtonId() != R.id.MovementBasedRadioButton) {
+                    return "Only the Movement-based classification method has been implemented.";
+                }
+
+                OkHttpClient client = new OkHttpClient().newBuilder()
+                        .build();
+                MediaType mediaType = MediaType.parse("text/plain");
+                RequestBody body = RequestBody.create(mediaType, "");
+                Request request = new Request.Builder()
+                        .url(getString(R.string.webServerURLClassification))
+                        .method("GET", null)
+                        .addHeader("user", "CSE535Group")
+                        .addHeader("file", selection + "_PRACTICE_" + practiceNumberEditText.getText().toString()
+                                + "_" + lastNameEditText.getText().toString() + ".mp4")
+                        .build();
+                Response response = client.newCall(request).execute();
+
+                if (response.isSuccessful()) {
+                    return "Classification: " + Objects.requireNonNull(response.body()).string();
+                } else if (response.code() == 400) {
+                    return "The file you are trying to classify does not exist.";
+                } else if (response.code() == 404) {
+                    return "Your classification is not ready yet. Wait about 3 minutes after uploading.";
+                } else if (response.code() == 500) {
+                    return "An error occurred on the server.";
+                }
+
+                return null;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return "";
+        }
+
+        @Override
+        protected void onProgressUpdate(String... text) {
+            Toast.makeText(getApplicationContext(), "In Background Task " + text[0], Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        protected void onPostExecute (String result) {
+            Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+        }
     }
 }

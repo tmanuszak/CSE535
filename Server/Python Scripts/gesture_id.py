@@ -6,7 +6,7 @@ all of the practice videos. It will keep track of the k closest practice videos 
 Returns: The mode category from the top k closest practice videos as a category.txt file.
 
 Ex:
-python3 generate_id.py /home/ubuntu/HandGesturesPracticeVideos/ /home/ubuntu/NewVideos/Email_PRACTICE_2_Manuszak.mp4
+python3 gesture_id.py /home/ubuntu/HandGesturesPracticeVideos/ /home/ubuntu/NewVideos/Email_PRACTICE_2_Manuszak.mp4
 
 '''
 

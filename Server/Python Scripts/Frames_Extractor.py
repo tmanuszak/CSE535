@@ -4,7 +4,8 @@ import random
 
 # Path to the directory containing Video Files
 # path_to_video_files = "/home/ubuntu/HandGesturesPracticeVideos/"
-path_to_video_files = "/home/ubuntu/test/"
+# path_to_video_files = "/home/ubuntu/test/"
+path_to_video_files = "/home/ubuntu/NewVideos/"
 
 path_to_frames = path_to_video_files
 video_files = os.listdir(path_to_video_files)
@@ -30,6 +31,8 @@ for file in video_files:
 						orientation = cv2.ROTATE_90_CLOCKWISE
 					else:
 						orientation = cv2.ROTATE_180
+					if 'Example' in file: # flip twice
+						image = cv2.rotate(image, orientation)
 					image = cv2.rotate(image, orientation)
 				arr_img.append(image)
 				count += 1

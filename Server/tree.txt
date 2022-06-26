@@ -1,7 +1,7 @@
 /home/ubuntu/
 ├── HandGesturesPracticeVideos
 │   ├── <Gesture>_PRACTICE_<#>_<Last Name>
-│   │   ├── <PNG Frames>
+│   │   ├── <PNG Frame #>.png
 │   │   ├── category.txt
 │   │   ├── key_points.csv
 │   │   ├── key_points.json

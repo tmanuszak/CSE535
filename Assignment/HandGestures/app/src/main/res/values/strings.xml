@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">HandGestures</string>
     <string name="server">164.92.120.129</string>
-    <string name="webServerURL">http://ec2-44-206-253-142.compute-1.amazonaws.com:3000/upload</string>
+    <string name="webServerURLUpload">http://ec2-44-206-253-142.compute-1.amazonaws.com:3000/upload</string>
+    <string name="webServerURLClassification">http://ec2-44-206-253-142.compute-1.amazonaws.com:3000/classification</string>
     <string name="username">CSE535Group</string>
     <string name="password">5YWrqsWf</string>
 </resources>
