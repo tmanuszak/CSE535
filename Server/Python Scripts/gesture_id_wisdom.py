@@ -46,7 +46,7 @@ with open(splitext(new_video_mp4)[0] + "/key_points.csv") as csv_file:
         right_wrist_X_norm.append((right_wrist_X_raw - nose_X) / abs(left_shoulder_X - right_shoulder_X))
         right_wrist_Y_norm.append((right_wrist_Y_raw - nose_Y) / abs(nose_Y - (right_shoulder_Y+left_shoulder_Y)/2))
         left_wrist_X_norm.append((left_wrist_X_raw - nose_X) / abs(left_shoulder_X - right_shoulder_X))
-        left_wrist_Y_norm.append((left_wrist_X_raw - nose_Y) / abs(nose_Y - (right_shoulder_Y+left_shoulder_Y)/2))
+        left_wrist_Y_norm.append((left_wrist_Y_raw - nose_Y) / abs(nose_Y - (right_shoulder_Y+left_shoulder_Y)/2))
 
 right_wrist_X_norm = np.asarray(right_wrist_X_norm)
 right_wrist_Y_norm = np.asarray(right_wrist_Y_norm)
@@ -78,7 +78,7 @@ for directory in [d for d in listdir(practice_videos_folder) if isdir(join(pract
                 right_wrist_Y_norm.append((right_wrist_Y_raw - nose_Y) / abs(
                 nose_Y - (right_shoulder_Y + left_shoulder_Y) / 2))
                 left_wrist_X_norm.append((left_wrist_X_raw - nose_X) / abs(left_shoulder_X - right_shoulder_X))
-                left_wrist_Y_norm.append((left_wrist_X_raw - nose_Y) / abs(
+                left_wrist_Y_norm.append((left_wrist_Y_raw - nose_Y) / abs(
                 nose_Y - (right_shoulder_Y + left_shoulder_Y) / 2))
 
         right_wrist_X_norm = np.asarray(right_wrist_X_norm)

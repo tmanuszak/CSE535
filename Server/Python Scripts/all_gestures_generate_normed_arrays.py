@@ -56,7 +56,7 @@ for directory in [d for d in listdir(videofolder) if isdir(join(videofolder, d))
 			right_wrist_X_norm.append((right_wrist_X_raw - nose_X) / abs(left_shoulder_X - right_shoulder_X))
 			right_wrist_Y_norm.append((right_wrist_Y_raw - nose_Y) / abs(nose_Y - (right_hip_Y+left_hip_Y)/2))
 			left_wrist_X_norm.append((left_wrist_X_raw - nose_X) / abs(left_shoulder_X - right_shoulder_X))
-			left_wrist_Y_norm.append((left_wrist_X_raw - nose_Y) / abs(nose_Y - (right_hip_Y+left_hip_Y)/2))
+			left_wrist_Y_norm.append((left_wrist_Y_raw - nose_Y) / abs(nose_Y - (right_hip_Y+left_hip_Y)/2))
 
 	right_wrist_X_norm = np.asarray(right_wrist_X_norm)
 	right_wrist_Y_norm = np.asarray(right_wrist_Y_norm)

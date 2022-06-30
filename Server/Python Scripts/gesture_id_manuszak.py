@@ -65,7 +65,7 @@ with open(splitext(new_video_mp4)[0] + "/key_points.csv") as csv_file:
     right_wrist_X_norm.append((right_wrist_X_raw - nose_X) / abs(left_shoulder_X - right_shoulder_X))
     right_wrist_Y_norm.append((right_wrist_Y_raw - nose_Y) / abs(nose_Y - (right_hip_Y+left_hip_Y)/2))
     left_wrist_X_norm.append((left_wrist_X_raw - nose_X) / abs(left_shoulder_X - right_shoulder_X))
-    left_wrist_Y_norm.append((left_wrist_X_raw - nose_Y) / abs(nose_Y - (right_hip_Y+left_hip_Y)/2))
+    left_wrist_Y_norm.append((left_wrist_Y_raw - nose_Y) / abs(nose_Y - (right_hip_Y+left_hip_Y)/2))
 
 # These are the normed arrays of the new video
 right_wrist_X_norm = np.asarray(right_wrist_X_norm)
