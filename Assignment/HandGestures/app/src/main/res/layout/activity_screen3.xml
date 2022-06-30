@@ -8,13 +8,13 @@
 
     <LinearLayout
         android:id="@+id/llScreen3V"
-        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/videoViewScreen3"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" >
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:id="@+id/llScreen3HLastName"
@@ -40,23 +40,24 @@
 
         <LinearLayout
             android:id="@+id/llScreen3HNumber"
-            android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/llScreen3HLastName"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" >
+            app:layout_constraintTop_toBottomOf="@id/llScreen3HLastName">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Practice Number: " />
+
             <EditText
                 android:id="@+id/practiceNumberText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:width="120dp"/>
+                android:width="120dp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -64,7 +65,7 @@
         android:id="@+id/videoViewScreen3"
         android:layout_width="311dp"
         android:layout_height="311dp"
-        app:layout_constraintBottom_toTopOf="@id/llScreen3Buttons"
+        app:layout_constraintBottom_toTopOf="@+id/llScreen3Buttons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/llScreen3V" />
@@ -74,24 +75,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/bigClassifyContainer"
+        app:layout_constraintBottom_toTopOf="@id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/videoViewScreen3">
-
-        <Button
-            android:id="@+id/uploadButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="Upload"
-            app:layout_constraintBottom_toBottomOf="@id/recordButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/recordButton"
-            app:layout_constraintTop_toBottomOf="@+id/recordButton" />
 
         <Button
             android:id="@+id/recordButton"
@@ -108,6 +95,16 @@
             app:layout_constraintTop_toTopOf="@id/uploadButton" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose an algorithm to classify upon uploading:"
+        app:layout_constraintBottom_toTopOf="@id/bigClassifyContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llScreen3Buttons" />
+
     <LinearLayout
         android:id="@+id/bigClassifyContainer"
         android:layout_width="wrap_content"
@@ -116,7 +113,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/llScreen3Buttons">
+        app:layout_constraintTop_toBottomOf="@+id/textView">
 
         <LinearLayout
             android:id="@+id/knowledgeRecoveryRadioContainer"
@@ -131,34 +128,55 @@
                 android:layout_height="match_parent">
 
                 <RadioButton
-                    android:id="@+id/locationBasedRadioButton2"
+                    android:id="@+id/LambaRadio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10px"
                     android:layout_marginBottom="10px"
                     android:height="48dp"
-                    android:text="Location-Based"
+                    android:text="Lamba"
                     android:textSize="16sp" />
 
                 <RadioButton
-                    android:id="@+id/MovementBasedRadioButton"
+                    android:id="@+id/ManuszakRadio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10px"
                     android:layout_marginBottom="10px"
                     android:height="48dp"
-                    android:text="Movement-Based"
+                    android:text="Manuszak"
                     android:textSize="16sp" />
 
                 <RadioButton
-                    android:id="@+id/HandshapeBasedRadioButton"
+                    android:id="@+id/NairRadio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10px"
                     android:layout_marginBottom="10px"
                     android:height="48dp"
-                    android:text="Handshape-Based"
+                    android:text="Nair"
                     android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/WisdomRadio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10px"
+                    android:layout_marginBottom="10px"
+                    android:height="48dp"
+                    android:text="Wisdom"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/AllRadio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10px"
+                    android:layout_marginBottom="10px"
+                    android:height="48dp"
+                    android:text="All"
+                    android:textSize="16sp" />
+
             </RadioGroup>
         </LinearLayout>
 
@@ -171,10 +189,18 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/classifyButton"
+                android:id="@+id/uploadButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Classify" />
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="Upload"
+                app:layout_constraintBottom_toBottomOf="@id/recordButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/recordButton"
+                app:layout_constraintTop_toBottomOf="@+id/recordButton" />
         </LinearLayout>
     </LinearLayout>
 

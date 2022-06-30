@@ -4,12 +4,10 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -18,13 +16,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.MediaController;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 import android.widget.VideoView;
 
 // FTP imports
-import org.apache.commons.net.ftp.FTP;
-import org.apache.commons.net.ftp.FTPClient;
 
 // ok http imports
 import okhttp3.MediaType;
@@ -34,19 +31,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.SocketException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.Objects;
 
 public class screen3 extends AppCompatActivity {
@@ -126,6 +111,7 @@ public class screen3 extends AppCompatActivity {
             }
         });
 
+        /*
         // Send GET request for the classification of the video
         Button classifyButton = (Button) findViewById(R.id.classifyButton);
         classifyButton.setOnClickListener(new View.OnClickListener() {
@@ -147,6 +133,7 @@ public class screen3 extends AppCompatActivity {
                 }
             }
         });
+        */
     }
 
     public void startRecording() {
@@ -198,6 +185,17 @@ public class screen3 extends AppCompatActivity {
         protected String doInBackground(String... strings) {
 
             try {
+                if (rg.getCheckedRadioButtonId() == -1) {
+                    return "You must select a classification algorithm to upload.";
+                }
+
+                RadioButton radio = findViewById(rg.getCheckedRadioButtonId());
+                String algo = radio.getText().toString();
+
+                if (algo.equals("Lamba")) {
+                    return "Lamba algorithm not implemented.";
+                }
+
                 File vidfile = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
                         + "/PracticeVideos/" + selection + "_PRACTICE_" + practiceNumberEditText.getText().toString()
                         + "_" + lastNameEditText.getText().toString() + ".mp4");
@@ -217,6 +215,7 @@ public class screen3 extends AppCompatActivity {
                         .url(getString(R.string.webServerURLUpload))
                         .method("POST", body)
                         .addHeader("user", "CSE535Group") // so I know this request came from the app
+                        .addHeader("algo", algo)
                         .build();
 
                 Response response = client.newCall(request).execute();
@@ -253,7 +252,7 @@ public class screen3 extends AppCompatActivity {
         protected String doInBackground(String... strings) {
 
             try {
-                if (rg.getCheckedRadioButtonId() != R.id.MovementBasedRadioButton) {
+                if (rg.getCheckedRadioButtonId() != R.id.WisdomRadio) {
                     return "Only the Movement-based classification method has been implemented.";
                 }
 
