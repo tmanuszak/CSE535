@@ -97,20 +97,58 @@ server.post('/upload', async (req, res) => {
 					console.log(FileName + " succussfully made CSV keypoints.");
 				}
 
-				execSync('python3 gesture_id.py ' + practicevideofolder + '/ ' + videofolder + "/'" + FileName + "'",
-					{
-						timeout: 300000,
-						cwd: '/home/ubuntu/posenet_nodejs_setup-master/Python\ Scripts/',
-						stdio: 'ignore'
-					});
-				
-				// Check if category file was made correctly
-				if (!fs.existsSync(videofolder + "/" + FileName.replace('.mp4', '') + "/category.txt")) {
-					console.log("ERROR: " + FileName + " didn't classsify properly.");
-					return;
-				} else {
-					const category = fs.readFileSync(videofolder + '/' + FileName.replace('.mp4', '') + '/category.txt'); 
-					console.log(FileName + " succussfully categorized as " + category);
+				if (req.headers.algo.toLowerCase() === 'manuszak' || req.headers.algo.toLowerCase() === 'all') {
+					execSync('python3 gesture_id_manuszak.py ' + practicevideofolder + '/ ' + videofolder + "/'" + FileName + "'",
+						{
+							timeout: 300000,
+							cwd: '/home/ubuntu/posenet_nodejs_setup-master/Python\ Scripts/',
+							stdio: 'ignore'
+						});
+					
+					// Check if category file was made correctly
+					if (!fs.existsSync(videofolder + "/" + FileName.replace('.mp4', '') + "/category_manuszak.txt")) {
+						console.log("ERROR: " + FileName + " didn't classsify properly with manuszak algorithm.");
+						return;
+					} else {
+						const category = fs.readFileSync(videofolder + '/' + FileName.replace('.mp4', '') + '/category_manuszak.txt'); 
+						console.log(FileName + " succussfully categorized as " + category + " with manuszak algorithm.");
+					}
+				}
+
+				if (req.headers.algo.toLowerCase() === 'wisdom' || req.headers.algo.toLowerCase() === 'all') {
+					execSync('python3 gesture_id_wisdom.py ' + practicevideofolder + '/ ' + videofolder + "/'" + FileName + "'",
+						{
+							timeout: 300000,
+							cwd: '/home/ubuntu/posenet_nodejs_setup-master/Python\ Scripts/',
+							stdio: 'ignore'
+						});
+					
+					// Check if category file was made correctly
+					if (!fs.existsSync(videofolder + "/" + FileName.replace('.mp4', '') + "/category_wisdom.txt")) {
+						console.log("ERROR: " + FileName + " didn't classsify properly with wisdom algorithm.");
+						return;
+					} else {
+						const category = fs.readFileSync(videofolder + '/' + FileName.replace('.mp4', '') + '/category_wisdom.txt'); 
+						console.log(FileName + " succussfully categorized as " + category + " with wisdom algorithm.");
+					}
+				}
+
+				if (req.headers.algo.toLowerCase() === 'nair' || req.headers.algo.toLowerCase() === 'all') {
+					execSync('python3 gesture_id_nair.py ' + practicevideofolder + '/ ' + videofolder + "/'" + FileName + "'",
+						{
+							timeout: 300000,
+							cwd: '/home/ubuntu/posenet_nodejs_setup-master/Python\ Scripts/',
+							stdio: 'ignore'
+						});
+					
+					// Check if category file was made correctly
+					if (!fs.existsSync(videofolder + "/" + FileName.replace('.mp4', '') + "/category_nair.txt")) {
+						console.log("ERROR: " + FileName + " didn't classsify properly with nair algorithm.");
+						return;
+					} else {
+						const category = fs.readFileSync(videofolder + '/' + FileName.replace('.mp4', '') + '/category_nair.txt'); 
+						console.log(FileName + " succussfully categorized as " + category + " with nair algorithm.");
+					}
 				}
 				
 				return;
