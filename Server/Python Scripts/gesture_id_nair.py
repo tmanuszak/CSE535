@@ -25,7 +25,7 @@ from statistics import mode
 
 practice_videos_folder = sys.argv[1]
 new_video_mp4 = sys.argv[2]
-k = 10  # This determines the top k closest practice gestures to this new video
+k = 15  # This determines the top k closest practice gestures to this new video
 
 ##### GETTING THE NORMED ARRAY OF THE NEW VIDEO #####
 # Initializations
@@ -112,7 +112,7 @@ categories = []
 for tup in topk:
 	with open(practice_videos_folder + tup[0] + "/category.txt") as f:
 		categories.append(f.readline().rstrip())
-with open(splitext(new_video_mp4)[0] + "/category.txt", "w") as f:
+with open(splitext(new_video_mp4)[0] + "/category_nair.txt", "w") as f:
 	f.write(mode(categories))
 
 print(new_video_mp4 + " is categorized as " + mode(categories))
