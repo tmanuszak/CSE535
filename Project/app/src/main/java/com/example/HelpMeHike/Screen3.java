@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 public class Screen3 extends AppCompatActivity {
 
+    //THIS CODE IS ALL OUTDATED, WAS USED FOR GEOTAGGING
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

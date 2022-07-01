@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     protected LocationManager locationManager;
     protected LocationListener locationListener;
     protected ArrayList<ArrayList<Double>> coordinates;
-    protected ArrayList<POI> POI_list;
+    protected ArrayList<Heartrate> heartrate_list;
     protected double tempLongitude;
     protected double tempLatitude;
 
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         setContentView(R.layout.activity_main);
 
         coordinates = new ArrayList<ArrayList<Double>>();
-        POI_list = new ArrayList<POI>();
+        heartrate_list = new ArrayList<Heartrate>();
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -83,34 +83,47 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         }
         locationManager.requestLocationUpdates(GPS_PROVIDER, 15000, 0, this);
 
-        Button geotag = (Button) findViewById(R.id.geotag);
-        geotag.setOnClickListener(new View.OnClickListener() {
+        Button photo = (Button) findViewById(R.id.photo);
+        photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, Screen3.class);
+                //Intent intent = new Intent(MainActivity.this, Screen3.class); //old code for geo-tagging
                 if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
                 Location location= locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                 tempLongitude = location.getLongitude();
                 tempLatitude = location.getLatitude();
-                startActivityForResult(intent, 1);
+                //startActivityForResult(intent, 1); //old code for geo-tagging
+                //ADD CODE HERE TO TAKE PICTURE
+            }
+        });
+
+        Button heartbeat = (Button) findViewById(R.id.heartbeat);
+        heartbeat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Call script to analyze heartbeat from photo
+                //heartrate = script()
+                //Heartrate point = new Heartrate(tempLatitude, tempLongitude, data.getDoubleExtra("heartrate"));
+                //heartrate_list.add(point);
             }
         });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == 1) {
-                if (data != null) {
-                    POI poi = new POI(tempLatitude, tempLongitude, data.getStringExtra("title"), data.getStringExtra("photopath"), data.getStringExtra("caption"), data.getBooleanExtra("type", false));
-                    POI_list.add(poi);
-                }
-            }
-        }
-    }
+//old code for geo-tagging
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (resultCode == Activity.RESULT_OK) {
+//            if (requestCode == 1) {
+//                if (data != null) {
+//                    Heartrate point = new Heartrate(tempLatitude, tempLongitude, data.getDoubleExtra("heartrate"));
+//                    heartrate_list.add(point);
+//                }
+//            }
+//        }
+//    }
 
     @Override
     public void onLocationChanged(Location location) {
@@ -119,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         point.add(location.getLongitude());
         coordinates.add(point);
         System.out.println(coordinates);
-        System.out.println(POI_list);
+        System.out.println(heartrate_list);
     }
 
     @Override
@@ -138,20 +151,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     }
 }
 
-class POI{
+class Heartrate{
     public double latitude;
     public double longitude;
-    public String title;
-    public String photopath; //file path to .jpeg location
-    public String caption;
-    public boolean type; //true if hazard
+    public double heartrate;
 
-    POI(double latitude, double longitude, String title, String photopath, String caption, boolean type){
+    Heartrate(double latitude, double longitude, double heartrate){
         this.latitude = latitude;
         this.longitude = longitude;
-        this.title = title;
-        this.photopath = photopath;
-        this.caption = caption;
-        this.type = type;
+        this.heartrate = heartrate;
     }
 }
