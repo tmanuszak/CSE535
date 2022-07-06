@@ -192,9 +192,9 @@ public class screen3 extends AppCompatActivity {
                 RadioButton radio = findViewById(rg.getCheckedRadioButtonId());
                 String algo = radio.getText().toString();
 
-                if (algo.equals("Lamba")) {
-                    return "Lamba algorithm not implemented.";
-                }
+//                if (algo.equals("Lamba")) {
+//                    return "Lamba algorithm not implemented.";
+//                }
 
                 File vidfile = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
                         + "/PracticeVideos/" + selection + "_PRACTICE_" + practiceNumberEditText.getText().toString()

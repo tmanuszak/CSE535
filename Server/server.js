@@ -150,6 +150,25 @@ server.post('/upload', async (req, res) => {
 						console.log(FileName + " succussfully categorized as " + category + " with nair algorithm.");
 					}
 				}
+
+				if (req.headers.algo.toLowerCase() === 'lamba' || req.headers.algo.toLowerCase() === 'all') {
+					execSync('python3 gesture_id_lamba.py ' + practicevideofolder + '/ ' + videofolder + "/'" + FileName + "'",
+						{
+							timeout: 300000,
+							cwd: '/home/ubuntu/posenet_nodejs_setup-master/Python\ Scripts/',
+							stdio: 'ignore'
+						});
+					
+					// Check if category file was made correctly
+					if (!fs.existsSync(videofolder + "/" + FileName.replace('.mp4', '') + "/category_lamba.txt")) {
+						console.log("ERROR: " + FileName + " didn't classsify properly with lamba algorithm.");
+						return;
+					} else {
+						const category = fs.readFileSync(videofolder + '/' + FileName.replace('.mp4', '') + '/category_lamba.txt'); 
+						console.log(FileName + " succussfully categorized as " + category + " with lamba algorithm.");
+					}
+				}
+				
 				
 				return;
 			
