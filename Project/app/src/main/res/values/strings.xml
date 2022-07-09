@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">HelpMeHike</string>
+    <string name="server">164.92.120.129</string>
+    <string name="webServerUpload">http://52.54.218.30:3000/upload</string>
+    <string name="webServerReceive">http://52.54.218.30:3000/finish</string>
+    <string name="username">CSE535Group</string>
+    <string name="password">5YWrqsWf</string>
 </resources>
