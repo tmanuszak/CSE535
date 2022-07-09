@@ -131,14 +131,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.MediaController;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-// FTP imports
 
 // ok http imports
 import okhttp3.MediaType;
@@ -152,7 +148,6 @@ import java.io.File;
 import java.util.Objects;
 
 import static android.location.LocationManager.GPS_PROVIDER;
-import static android.location.LocationManager.NETWORK_PROVIDER;
 
 public class Screen2 extends AppCompatActivity implements LocationListener {
 
@@ -167,6 +162,7 @@ public class Screen2 extends AppCompatActivity implements LocationListener {
     private static final int VIDEO_RECORD_CODE = 101;
     private VideoView v;
     private static File mediaFile;
+    private static String hikename;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,7 +174,7 @@ public class Screen2 extends AppCompatActivity implements LocationListener {
 
         Bundle extras = getIntent().getExtras();
         assert extras != null;
-        final String hikename = extras.getString("name");
+        hikename = extras.getString("name");
 
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -235,7 +231,7 @@ public class Screen2 extends AppCompatActivity implements LocationListener {
 //            }
 //        });
 
-        Button heartbeat = (Button) findViewById(R.id.heartbeat);
+        Button heartbeat = (Button) findViewById(R.id.upload);
         heartbeat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -254,13 +250,15 @@ public class Screen2 extends AppCompatActivity implements LocationListener {
     public void startRecording() {
         System.out.println("here1");
         File dir = new File(Environment.getExternalStorageDirectory() + "/HeartRateVideos/");
+        System.out.println(dir.toString());
         if (!dir.exists()) {
             dir.mkdir();
         }
-        mediaFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/HeartRateVideos/" + "test" + ".mp4");
+        mediaFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
+                + "/HeartRateVideos/" + hikename + ".mp4");
 
         Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 60);
+        intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 30);
         Uri fileUri = Uri.fromFile(mediaFile);
 
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
@@ -330,12 +328,14 @@ public class Screen2 extends AppCompatActivity implements LocationListener {
 
     }
 
+
     public class UploadTask extends AsyncTask<String, String, String> {
+
         @Override
         protected String doInBackground(String... strings) {
 
             try {
-                File vidfile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/HeartRateVideos/" + "test" + ".mp4");
+                File vidfile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/HeartRateVideos/" + hikename + ".mp4");
 
                 OkHttpClient client = new OkHttpClient().newBuilder().build();
                 MediaType mediaType = MediaType.parse("text/plain");
@@ -350,12 +350,14 @@ public class Screen2 extends AppCompatActivity implements LocationListener {
                         .url(getString(R.string.webServerUpload))
                         .method("POST", body)
                         .addHeader("user", "CSE535Group") // so I know this request came from the app
+                        .addHeader("time", String.valueOf(System.currentTimeMillis()))
+                        .addHeader("coords", String.valueOf(tempLongitude) + ", " + String.valueOf(tempLatitude))
                         .build();
 
                 Response response = client.newCall(request).execute();
 
                 if (response.isSuccessful()) {
-                    return "Upload successful. Wait 2-3 minutes before getting the classification.";
+                    return "Upload successful. Wait 2-3 minutes before getting the data.";
                 } else {
                     return Objects.requireNonNull(response.body()).string();
                 }
@@ -363,6 +365,8 @@ public class Screen2 extends AppCompatActivity implements LocationListener {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+
 
             return "";
         }
@@ -379,6 +383,7 @@ public class Screen2 extends AppCompatActivity implements LocationListener {
         }
 
     }
+
 
 
 
