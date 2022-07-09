@@ -99,19 +99,14 @@ server.get('/results', async (req, res) => {
 	file_requested = req.headers.file;
 
 	try {
-		if (!fs.existsSync(videofolder + "/" + file_requested)) {
+		if (!fs.existsSync(bpmresultsfolder + "/" + file_requested + ".png")) {
 			return res.status(400).send("The file requested does not exist.");
 		}
 		
-		if (!fs.existsSync(videofolder + "/" + file_requested.replace('.mp4', '') + '/category.txt')) {
-			return res.status(404).send("The requested file has not finished classification.");
-		}
-
-		const category = fs.readFileSync(videofolder + '/' + file_requested.replace('.mp4', '') + '/category.txt');
-		console.log("Server returning category " + category + " for " + file_requested);
-		res.status(200).send(category);
+		console.log("Server returning " + file_requested + " PNG");
+		res.sendFile(bpmresultsfolder + '/' + file_requested + '.png');
 	} catch (err) {
-		console.log("ERROR: an error occurred when trying to get the classification.");
+		console.log("ERROR: an error occurred when trying to send the file for " + req.headers.file);
 		return res.status(500).send("Error on the server.");
 	}
 });

@@ -55,12 +55,11 @@ if (exists('/home/ubuntu/BPMResults/' + filename + '_start_time_millis.txt') is 
 		time[i] = time[i] / 60 # so its in mintutes
 	ax = plt.figure()
 	plt.plot(time, BPM, 'k.-', label='Heart Rate Data')
-	plt.text(time[0], BPM[0]+30, coords, verticalalignment='bottom')		
+	#plt.text(time[0], BPM[0]+30, coords, verticalalignment='bottom')		
 	plt.plot(time, average_bpm, 'r.-', label='5 second moving avg.')
 	plt.legend()
 	plt.xlabel("Time (minutes)")
 	plt.ylabel("BPM")
-	#plt.fill_between(time, BPM-uncertainty, BPM+uncertainty, alpha=0.2)
 	plt.savefig('/home/ubuntu/BPMResults/' + filename + '.png')
 	pickle.dump(np.expand_dims(BPM, axis=0).tolist(), open('/home/ubuntu/BPMResults/' + filename + '_bpm.pickle','wb'))
 	pickle.dump(np.expand_dims(average_bpm, axis=0).tolist(), open('/home/ubuntu/BPMResults/' + filename + '_avg.pickle','wb'))
@@ -70,7 +69,7 @@ else:
 	with open('/home/ubuntu/BPMResults/' + filename + '_start_time_millis.txt', 'r') as file:
 		start_time = int(file.read())
 		for i in range(len(time)):
-			time[i] = (video_time_millis - start_time + time[i]) / 60  # minutes past first upload
+			time[i] = ((video_time_millis - start_time) / 60000) + (time[i] / 60)  # minutes past first upload
 	
 	old_bpm = pickle.load(open('/home/ubuntu/BPMResults/' + filename + '_bpm.pickle','rb'))
 	old_average_bpm = pickle.load(open('/home/ubuntu/BPMResults/' + filename + '_avg.pickle','rb'))
@@ -104,11 +103,11 @@ else:
 		if i == 0:
 			bax.plot(time[i], BPM[i], 'k.-', label="Heart Rate Data")
 			bax.plot(time[i], average_bpm[i], 'r.-', label="5 second moving avg.")
-			bax.text(time[i][5], min(BPM[i])-10, coords[i], verticalalignment='bottom')	
+			#bax.text(time[i][5], min(BPM[i])-10, coords[i], verticalalignment='bottom')	
 		else:
 			bax.plot(time[i], BPM[i], 'k.-')
 			bax.plot(time[i], average_bpm[i], 'r.-')
-			bax.text(time[i][5], min(BPM[i])-10, coords[i], verticalalignment='bottom')	
+			#bax.text(time[i][5], min(BPM[i])-10, coords[i], verticalalignment='bottom')	
 		
 	bax.legend()
 	bax.set_xlabel("Time (minutes)")
