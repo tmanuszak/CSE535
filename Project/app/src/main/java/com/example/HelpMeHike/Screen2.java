@@ -117,6 +117,13 @@ import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -245,6 +252,21 @@ public class Screen2 extends AppCompatActivity implements LocationListener {
                 }
             }
         });
+
+
+        // Send GET request for the classification of the video
+        Button getdataButton = (Button) findViewById(R.id.finish);
+        getdataButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                assert mediaFile != null;
+                if (!Objects.equals(hikename, "")) {
+                    GetDataTask getdata = new GetDataTask();
+                    getdata.execute();
+                }
+            }
+        });
+
     }
 
     public void startRecording() {
@@ -384,7 +406,71 @@ public class Screen2 extends AppCompatActivity implements LocationListener {
 
     }
 
+    public class GetDataTask extends AsyncTask<String, String, String> {
 
+        @Override
+        protected String doInBackground(String... strings) {
+
+            try {
+
+                OkHttpClient client = new OkHttpClient().newBuilder()
+                        .build();
+                MediaType mediaType = MediaType.parse("text/plain");
+                RequestBody body = RequestBody.create(mediaType, "");
+                Request request = new Request.Builder()
+                        .url(getString(R.string.webServerResults))
+                        .method("GET", null)
+                        .addHeader("user", "CSE535Group")
+                        .addHeader("file", hikename)
+                        .build();
+                Response response = client.newCall(request).execute();
+
+                if (response.isSuccessful()) {
+                    InputStream initialStream = response.body().byteStream();
+                    File pngfile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/HeartRateVideos/" + hikename + ".png");
+                    OutputStream outStream = new FileOutputStream(pngfile);
+
+                    byte[] buffer = new byte[8 * 1024];
+                    int bytesRead;
+                    while ((bytesRead = initialStream.read(buffer)) != -1) {
+                        outStream.write(buffer, 0, bytesRead);
+                    }
+                    initialStream.close();
+                    outStream.close();
+
+                    return "File received.";
+                } else if (response.code() == 400) {
+                    return "The file you are trying to get does not exist.";
+                } else if (response.code() == 404) {
+                    return "Your file is not ready yet. Wait about 3 minutes after uploading.";
+                } else if (response.code() == 500) {
+                    return "An error occurred on the server.";
+                }
+
+                return null;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return "";
+        }
+
+        @Override
+        protected void onProgressUpdate(String... text) {
+            Toast.makeText(getApplicationContext(), "In Background Task " + text[0], Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        protected void onPostExecute (String result) {
+            Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+            if (result.equals("File received.")) {
+                Intent intent = new Intent(Screen2.this, Screen3.class);
+                intent.putExtra("name", hikename);
+                startActivity(intent);
+            }
+        }
+    }
 
 
 }
